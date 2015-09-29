@@ -34,27 +34,27 @@ public class Lista {
 				
 	}
 
-	public void agregarNodo(int dato)
+	public void agregarNodo(BusinessObject objetoNegocio)
 	{
 		Nodo auxiliar;
 		incrementaNumeroNodos();
 		
 		if(listaVacia() == true)
 		{
-			auxiliar = new Nodo(dato);
+			auxiliar = new Nodo(objetoNegocio);
 			setPrimeroNodo(auxiliar);
 			setUltimoNodo(auxiliar);
 		}
 		else
 		{
-			auxiliar = new Nodo(dato);
+			auxiliar = new Nodo(objetoNegocio);
 			auxiliar.setAnteriorNodo(getUltimoNodo());
 			getUltimoNodo().setSiguienteNodo(auxiliar);
 			setUltimoNodo(auxiliar);
 		}
 	}
 	
-	public void eliminarNodo(int dato)
+	public void eliminarNodo(BusinessObject objetoNegocio)
 	{
 		Nodo auxiliar = getPrimeroNodo();
 		
@@ -64,7 +64,7 @@ public class Lista {
 			do
 			{
 				
-				if(auxiliar.getDato() == dato)
+				if(auxiliar.getObjetoNegocio() == objetoNegocio)
 				{
 					
 					if(auxiliar == getPrimeroNodo())
@@ -90,14 +90,61 @@ public class Lista {
 			}while(auxiliar != null);
 			
 			if(auxiliar == null)
-				System.out.println("El valor " + dato + " no ha sido encontrado para eliminación");
+				System.out.println("El valor " + objetoNegocio.toString() + " no ha sido encontrado para eliminación");
 		}
 		
 	}
 	
-	public Nodo consultarNodo(int dato)
+	public Nodo consultarNodo(String codigo)
 	{
-		return getPrimeroNodo();
+		Nodo auxiliar = getPrimeroNodo();
+		
+		if(listaVacia() != true)
+		{
+			
+			do
+			{
+				
+				if(auxiliar.getObjetoNegocio().getCodigoObjeto() == codigo)
+				{
+					return auxiliar;
+
+				}
+				
+				auxiliar = auxiliar.getSiguienteNodo();
+			}while(auxiliar != null);
+			
+			if(auxiliar == null)
+				return auxiliar;
+		}
+
+		return null;
+	}
+	
+	public Boolean existeNodo(String codigo)
+	{
+		Nodo auxiliar = getPrimeroNodo();
+		
+		if(listaVacia() != true)
+		{
+			
+			do
+			{
+				
+				if(auxiliar.getObjetoNegocio().getCodigoObjeto() == codigo)
+				{
+					return Boolean.TRUE;
+
+				}
+				
+				auxiliar = auxiliar.getSiguienteNodo();
+			}while(auxiliar != null);
+			
+			if(auxiliar == null)
+				return Boolean.FALSE;
+		}
+
+		return Boolean.FALSE;
 	}
 	
 	public void setPrimeroNodo(Nodo primero)

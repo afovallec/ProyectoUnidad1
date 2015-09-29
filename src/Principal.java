@@ -3,10 +3,15 @@ public class Principal {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Negocio negocio1;
-		Organizacion organizacion1;
-		Persona persona1;
-		Actividad actividad1;
+		BusinessObject negocio1;
+		BusinessObject organizacion1;
+		BusinessObject persona1;
+		BusinessObject actividad1;
+		
+		Nodo nodoNegocio;
+		Nodo nodoOrganizacion;
+		Nodo nodoPersona;
+		Nodo nodoActividad;
 		
 		negocio1 = new Negocio(	"codn1",
 								"Título negocio 1",
@@ -24,16 +29,20 @@ public class Principal {
 								"1@1.com");
 		actividad1 = new Actividad(	"coda1",
 									"Actividad 1",
-									"ADMIN",
 									"1-ene-2015",
 									"2:00 Pm",
 									"5 Horas");
 		
+		nodoNegocio = new Nodo((Negocio)negocio1);
+		nodoOrganizacion = new Nodo((Organizacion)organizacion1);
+		nodoPersona = new Nodo((Persona)persona1);
+		nodoActividad = new Nodo((Actividad)actividad1);
+		
 		System.out.println(	"\nPRUEBA IMPRESIÓN" +
-							"\n" + negocio1.toString() +
-							"\n\n" + organizacion1.toString() + 
-							"\n\n" + persona1.toString() +
-							"\n\n" + actividad1.toString());
+							"\n" + nodoNegocio.toString() +
+							"\n\n" + nodoOrganizacion.toString() + 
+							"\n\n" + nodoPersona.toString() +
+							"\n\n" + nodoActividad.toString());
 	}
 
 }

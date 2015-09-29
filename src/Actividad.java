@@ -1,5 +1,5 @@
 
-public class Actividad {
+public class Actividad extends BusinessObject{
 	private String codigoActividad;
 	private String descripcionActividad;
 	private String tipoActividad;
@@ -11,19 +11,19 @@ public class Actividad {
 	private String nombreNegocio;
 	
 	public Actividad(String codigoActividad, String descripcionActividad,
-			String tipoActividad, String fechaInicioActividad,
+			String fechaInicioActividad,
 			String horaInicioActividad, String duracionActividad)
 	{
-		super();
+		super(codigoActividad);
 		this.codigoActividad = codigoActividad;
 		this.descripcionActividad = descripcionActividad;
-		this.tipoActividad = tipoActividad;
+		this.tipoActividad = "ADMINISTRATIVA";
 		this.fechaInicioActividad = fechaInicioActividad;
 		this.horaInicioActividad = horaInicioActividad;
 		this.duracionActividad = duracionActividad;
-		this.nombrePersona = "";
-		this.nombreOrganizacion = "";
-		this.nombreNegocio = "";
+		this.nombrePersona = "SINASIGNAR";
+		this.nombreOrganizacion = "SINASIGNAR";
+		this.nombreNegocio = "SINASIGNAR";
 	}
 
 	public String getCodigoActividad() {
@@ -32,6 +32,7 @@ public class Actividad {
 
 	public void setCodigoActividad(String codigoActividad) {
 		this.codigoActividad = codigoActividad;
+		setCodigoObjeto(codigoActividad);
 	}
 
 	public String getDescripcionActividad() {
@@ -100,14 +101,6 @@ public class Actividad {
 	
 	public String toString()
 	{
-		return 	"INFORMACIÓN ACTIVIDAD: " + getCodigoActividad() +
-				"\n\tDescripción actividad: " + getDescripcionActividad() +
-				"\n\tTipo actividad: " + getTipoActividad() + 
-				"\n\tFecha inicio actividad: " + getFechaInicioActividad() +
-				"\n\tHora inicio actividad: " + getHoraInicioActividad() +
-				"\n\tDuración actividad: " + getDuracionActividad() +
-				"\n\tNombre persona asignada: " + getNombrePersona() +
-				"\n\tNombre organización: " + getNombreOrganizacion() +
-				"\n\tNombre negocio: " + getNombreNegocio(); 
+		return 	"INFORMACIÓN ACTIVIDAD: " + getCodigoObjeto();
 	}
 }

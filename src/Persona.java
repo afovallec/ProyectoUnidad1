@@ -1,5 +1,5 @@
 
-public class Persona {
+public class Persona extends BusinessObject{
 	private String tipoDocumentoPersona;
 	private String numeroDocumentoPersona;
 	private String nombrePersona;
@@ -9,7 +9,7 @@ public class Persona {
 	public Persona(String tipoDocumentoPersona, String numeroDocumentoPersona,
 			String nombrePersona, String telofonoPersona, String emailPersona)
 	{
-		super();
+		super(tipoDocumentoPersona + numeroDocumentoPersona);
 		this.tipoDocumentoPersona = tipoDocumentoPersona;
 		this.numeroDocumentoPersona = numeroDocumentoPersona;
 		this.nombrePersona = nombrePersona;
@@ -23,6 +23,7 @@ public class Persona {
 
 	public void setTipoDocumentoPersona(String tipoDocumentoPersona) {
 		this.tipoDocumentoPersona = tipoDocumentoPersona;
+		setCodigoObjeto(tipoDocumentoPersona + getNumeroDocumentoPersona());
 	}
 
 	public String getNumeroDocumentoPersona() {
@@ -31,6 +32,7 @@ public class Persona {
 
 	public void setNumeroDocumentoPersona(String numeroDocumentoPersona) {
 		this.numeroDocumentoPersona = numeroDocumentoPersona;
+		setCodigoObjeto(getTipoDocumentoPersona() + numeroDocumentoPersona);
 	}
 
 	public String getNombrePersona() {
@@ -59,9 +61,6 @@ public class Persona {
 	
 	public String toString()
 	{
-		return 	"INFORMACIÓN PERSONA: " + getTipoDocumentoPersona() + getNumeroDocumentoPersona() +
-				"\n\tNombre persona: " + getNombrePersona() +
-				"\n\tTeléfono persona: " + getTelofonoPersona() + 
-				"\n\te-mail persona: " + getEmailPersona(); 
+		return 	"INFORMACIÓN PERSONA: " + getCodigoObjeto();
 	}
 }

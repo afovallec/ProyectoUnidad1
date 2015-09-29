@@ -1,21 +1,29 @@
 
 public class Nodo {
-	private int dato;
+	private BusinessObject objetoNegocio;
 	private Nodo siguiente;
 	private Nodo anterior;
 	
-	public Nodo(int dato)
+	public Nodo(BusinessObject objetoNegocio)
 	{
-		this.dato = dato;
+		this.objetoNegocio = objetoNegocio;
 		this.siguiente = null;
 		this.anterior = null;
 	}
-	
+
 	public String toString()
 	{
-		return Integer.toString(this.dato);
+		return objetoNegocio.toString();
 	}
-	
+
+	public BusinessObject getObjetoNegocio() {
+		return objetoNegocio;
+	}
+
+	public void setObjetoNegocio(BusinessObject objetoNegocio) {
+		this.objetoNegocio = objetoNegocio;
+	}
+
 	public void setSiguienteNodo(Nodo siguiente)
 	{
 		this.siguiente = siguiente;
@@ -34,15 +42,5 @@ public class Nodo {
 	public Nodo getAnteriorNodo()
 	{
 		return this.anterior;
-	}
-	
-	public void setDato(int dato)
-	{
-		this.dato = dato;
-	}
-	
-	public int getDato()
-	{
-		return this.dato;
 	}
 }

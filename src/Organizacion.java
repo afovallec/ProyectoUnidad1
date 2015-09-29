@@ -1,4 +1,4 @@
-public class Organizacion {
+public class Organizacion extends BusinessObject{
 	private String nitOrganizacion;
 	private String nombreOrganizacion;
 	private String direccionOrganizacion;
@@ -7,7 +7,7 @@ public class Organizacion {
 	public Organizacion(String nitOrganizacion, String nombreOrganizacion,
 			String direccionOrganizacion, String telefonoOrganizacion)
 	{
-		super();
+		super(nitOrganizacion);
 		this.nitOrganizacion = nitOrganizacion;
 		this.nombreOrganizacion = nombreOrganizacion;
 		this.direccionOrganizacion = direccionOrganizacion;
@@ -20,6 +20,7 @@ public class Organizacion {
 
 	public void setNitOrganizacion(String nitOrganizacion) {
 		this.nitOrganizacion = nitOrganizacion;
+		setCodigoObjeto(nitOrganizacion);
 	}
 
 	public String getNombreOrganizacion() {
@@ -48,9 +49,6 @@ public class Organizacion {
 	
 	public String toString()
 	{
-		return 	"INFORMACIÓN ORGANIZACIÓN: " + getNitOrganizacion() +
-				"\n\tNombre organización: " + getNombreOrganizacion() +
-				"\n\tDirección organización: " + getDireccionOrganizacion() + 
-				"\n\tTeléfono organización: " + getTelefonoOrganizacion(); 
+		return	"INFORMACIÓN ORGANIZACIÓN: " + getCodigoObjeto();
 	}
 }
