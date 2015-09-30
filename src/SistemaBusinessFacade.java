@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 public class SistemaBusinessFacade {
 	private Lista listaNegocios;
 	private Lista listaOrganizaciones;
@@ -40,23 +39,58 @@ public class SistemaBusinessFacade {
 	
 	public void agregarNegocio(Negocio negocio)
 	{
+		if(!getListaNegocios().existeNodo(negocio.getCodigoObjeto()))
+			getListaNegocios().agregarNodo(negocio);
+		else
+			System.out.println("No pudo agregarse el negocio de código " + negocio.getCodigoObjeto() + " a la lista de negocios");
 	}
 	
 	public Negocio consultarNegocioPorCodigo(String codigoNegocio)
-	{
-		
+	{	
+		if(getListaNegocios().existeNodo(codigoNegocio))
+		{
+			return (Negocio) getListaNegocios().consultarNodo(codigoNegocio).getObjetoNegocio();
+		}
+		else
+		{
+			System.out.println("No existe ningún negocio con el código " + codigoNegocio);
+			return null;
+		}
 	}
 	
 	public void eliminarNegocio(String codigoNegocio)
 	{
-		
+		if(getListaNegocios().existeNodo(codigoNegocio))
+		{
+			getListaNegocios().eliminarNodo(codigoNegocio);
+		}
+		else
+		{
+			System.out.println("No existe ningún negocio con el código " + codigoNegocio + " para eliminación");
+		}		
 	}
 	
 	public ArrayList<String> listarNegocios()
 	{
+		ArrayList<String> listaNegocios;
 		
+		listaNegocios = new ArrayList<String>();
+		
+		if(!getListaNegocios().listaVacia())
+		{
+			for(int contador = 0; contador < getListaNegocios().getNumeroNodos(); contador ++)
+			{
+				listaNegocios.add(getListaNegocios().obtenerNodoPorPosicion(contador).getObjetoNegocio().toString());
+			}
+			
+			return listaNegocios;
+		}
+		else
+		{
+			return null;
+		}
 	}
-	
+	/*
 	//Inicio operaciones sobre la entidad Lista de Organizaciones
 	
 	public void agregarOrganizacion(Organizacion organizacion)
@@ -117,6 +151,7 @@ public class SistemaBusinessFacade {
 	
 	public ArrayList<String> listarActividades()
 	{
+		ArrayList<String> listaActividades = new ArrayList<String>();
 		
 	}
 	
@@ -135,4 +170,5 @@ public class SistemaBusinessFacade {
 	{
 		
 	}
+	*/
 }

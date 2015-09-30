@@ -54,7 +54,7 @@ public class Lista {
 		}
 	}
 	
-	public void eliminarNodo(BusinessObject objetoNegocio)
+	public void eliminarNodo(String codigoObjeto)
 	{
 		Nodo auxiliar = getPrimeroNodo();
 		
@@ -64,7 +64,7 @@ public class Lista {
 			do
 			{
 				
-				if(auxiliar.getObjetoNegocio() == objetoNegocio)
+				if(auxiliar.getObjetoNegocio().getCodigoObjeto() == codigoObjeto)
 				{
 					
 					if(auxiliar == getPrimeroNodo())
@@ -90,7 +90,7 @@ public class Lista {
 			}while(auxiliar != null);
 			
 			if(auxiliar == null)
-				System.out.println("El valor " + objetoNegocio.toString() + " no ha sido encontrado para eliminación");
+				System.out.println("El valor " + codigoObjeto + " no ha sido encontrado para eliminación");
 		}
 		
 	}
@@ -116,6 +116,36 @@ public class Lista {
 			
 			if(auxiliar == null)
 				return auxiliar;
+		}
+
+		return null;
+	}
+	
+	public Nodo obtenerNodoPorPosicion(int numeroPosicionNodo)
+	{
+		Nodo auxiliar = getPrimeroNodo();
+		int contadorPosicion;
+		
+		contadorPosicion = 0;
+		
+		if(listaVacia() != true)
+		{
+			
+			do
+			{
+				
+				if(contadorPosicion == numeroPosicionNodo)
+				{
+					return auxiliar;
+
+				}
+				
+				auxiliar = auxiliar.getSiguienteNodo();
+				contadorPosicion ++;
+			}while(auxiliar != null);
+			
+			if(auxiliar == null)
+				return null;
 		}
 
 		return null;
