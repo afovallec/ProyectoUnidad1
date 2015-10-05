@@ -1,3 +1,4 @@
+package Business;
 
 public class Lista {
 	private Nodo primero;
@@ -54,7 +55,7 @@ public class Lista {
 		}
 	}
 	
-	public void eliminarNodo(String codigoObjeto)
+	public void eliminarNodo(String codigoNombreObjeto)
 	{
 		Nodo auxiliar = getPrimeroNodo();
 		
@@ -63,8 +64,8 @@ public class Lista {
 			
 			do
 			{
-				
-				if(auxiliar.getObjetoNegocio().getCodigoObjeto() == codigoObjeto)
+				//TODO - Regresar a la definiciòn de solamente ccomparación por código objeto
+				if(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto() == codigoNombreObjeto)
 				{
 					
 					if(auxiliar == getPrimeroNodo())
@@ -90,12 +91,12 @@ public class Lista {
 			}while(auxiliar != null);
 			
 			if(auxiliar == null)
-				System.out.println("El valor " + codigoObjeto + " no ha sido encontrado para eliminación");
+				System.out.println("El valor " + codigoNombreObjeto + " no ha sido encontrado para eliminación");
 		}
 		
 	}
 	
-	public Nodo consultarNodo(String codigo)
+	public Nodo consultarNodo(String codigoObjeto)
 	{
 		Nodo auxiliar = getPrimeroNodo();
 		
@@ -104,8 +105,34 @@ public class Lista {
 			
 			do
 			{
+				//TODO - Regresar a la definición de comparación únicamente por código objeto
+				if(codigoObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto()))
+				{
+					return auxiliar;
+
+				}
 				
-				if(auxiliar.getObjetoNegocio().getCodigoObjeto() == codigo)
+				auxiliar = auxiliar.getSiguienteNodo();
+			}while(auxiliar != null);
+			
+			if(auxiliar == null)
+				return auxiliar;
+		}
+
+		return null;
+	}
+	
+	public Nodo consultarNodoCodigoNombre(String codigoNombreObjeto)
+	{
+		Nodo auxiliar = getPrimeroNodo();
+		
+		if(listaVacia() != true)
+		{
+			
+			do
+			{
+				//TODO - Regresar a la definición de comparación únicamente por código objeto
+				if(codigoNombreObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto()))
 				{
 					return auxiliar;
 
@@ -151,7 +178,7 @@ public class Lista {
 		return null;
 	}
 	
-	public Boolean existeNodo(String codigo)
+	public Boolean existeNodo(String codigoObjeto)
 	{
 		Nodo auxiliar = getPrimeroNodo();
 		
@@ -161,7 +188,8 @@ public class Lista {
 			do
 			{
 				
-				if(auxiliar.getObjetoNegocio().getCodigoObjeto() == codigo)
+				//TODO - Regresar a la definición de comparación únicamente por código objeto
+				if(codigoObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto()))
 				{
 					return Boolean.TRUE;
 

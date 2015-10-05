@@ -1,3 +1,4 @@
+package Business;
 import java.util.ArrayList;
 
 public class PrincipalListas {
@@ -38,6 +39,8 @@ public class PrincipalListas {
 		System.out.println("\nPrueba de negocios: " + listaNegocios.get(7).toString());
 		sistema.eliminarNegocio("codn7");
 		sistema.consultarNegocioPorCodigo("codn7");
+		
+		
 		
 		/*organizacion1 = new Organizacion(	"nit1",
 											"Nombre organización 1",

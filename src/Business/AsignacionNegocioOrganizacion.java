@@ -1,3 +1,4 @@
+package Business;
 
 public class AsignacionNegocioOrganizacion extends BusinessObject{
 	private Negocio negocio;

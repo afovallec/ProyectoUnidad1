@@ -1,27 +1,28 @@
+package Business;
 
 public class Nodo {
-	private BusinessObject objetoNegocio;
+	private BusinessObject businessObject;
 	private Nodo siguiente;
 	private Nodo anterior;
 	
 	public Nodo(BusinessObject objetoNegocio)
 	{
-		this.objetoNegocio = objetoNegocio;
+		this.businessObject = objetoNegocio;
 		this.siguiente = null;
 		this.anterior = null;
 	}
 
 	public String toString()
 	{
-		return objetoNegocio.toString();
+		return businessObject.toString();
 	}
 
-	public BusinessObject getObjetoNegocio() {
-		return objetoNegocio;
+	public BusinessObject getBusinessObject() {
+		return businessObject;
 	}
 
-	public void setObjetoNegocio(BusinessObject objetoNegocio) {
-		this.objetoNegocio = objetoNegocio;
+	public void setBusinessObject(BusinessObject businessObject) {
+		this.businessObject = businessObject;
 	}
 
 	public void setSiguienteNodo(Nodo siguiente)

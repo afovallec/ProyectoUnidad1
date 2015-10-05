@@ -1,3 +1,4 @@
+package Business;
 
 public class Persona extends BusinessObject{
 	private String tipoDocumentoPersona;
@@ -9,7 +10,7 @@ public class Persona extends BusinessObject{
 	public Persona(String tipoDocumentoPersona, String numeroDocumentoPersona,
 			String nombrePersona, String telofonoPersona, String emailPersona)
 	{
-		super(tipoDocumentoPersona + numeroDocumentoPersona);
+		super(tipoDocumentoPersona + numeroDocumentoPersona, nombrePersona);
 		this.tipoDocumentoPersona = tipoDocumentoPersona;
 		this.numeroDocumentoPersona = numeroDocumentoPersona;
 		this.nombrePersona = nombrePersona;

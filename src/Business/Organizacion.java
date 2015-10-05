@@ -1,3 +1,4 @@
+package Business;
 public class Organizacion extends BusinessObject{
 	private String nitOrganizacion;
 	private String nombreOrganizacion;

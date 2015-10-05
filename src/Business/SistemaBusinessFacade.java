@@ -1,3 +1,4 @@
+package Business;
 import java.util.ArrayList;
 
 public class SistemaBusinessFacade {
@@ -49,13 +50,18 @@ public class SistemaBusinessFacade {
 	{	
 		if(getListaNegocios().existeNodo(codigoNegocio))
 		{
-			return (Negocio) getListaNegocios().consultarNodo(codigoNegocio).getObjetoNegocio();
+			return (Negocio) getListaNegocios().consultarNodo(codigoNegocio).getBusinessObject();
 		}
 		else
 		{
 			System.out.println("No existe ningún negocio con el código " + codigoNegocio);
 			return null;
 		}
+	}
+	
+	public Negocio consultarNegocioPorCodigoNombre(String codigoNombreNegocio)
+	{	
+		return (Negocio) getListaNegocios().consultarNodoCodigoNombre(codigoNombreNegocio).getBusinessObject();
 	}
 	
 	public void eliminarNegocio(String codigoNegocio)
@@ -80,7 +86,7 @@ public class SistemaBusinessFacade {
 		{
 			for(int contador = 0; contador < getListaNegocios().getNumeroNodos(); contador ++)
 			{
-				listaNegocios.add(getListaNegocios().obtenerNodoPorPosicion(contador).getObjetoNegocio().toString());
+				listaNegocios.add(getListaNegocios().obtenerNodoPorPosicion(contador).getBusinessObject().toString());
 			}
 			
 			return listaNegocios;
@@ -90,6 +96,29 @@ public class SistemaBusinessFacade {
 			return null;
 		}
 	}
+	
+	public void actualizarNegocio(String codigoNegocio, String tituloNegocio,
+		String descripcionNegocio, String codigoNombreOrganizacion,
+		double valorNegocio,
+		String fechaCierreNegocio, int estadoNegocio)
+	{
+		Negocio negocioSeleccionado;
+		negocioSeleccionado = (Negocio) getListaNegocios().consultarNodo(codigoNegocio).getBusinessObject();
+
+		if(negocioSeleccionado != null)
+		{
+			negocioSeleccionado.setTituloNegocio(tituloNegocio);
+			negocioSeleccionado.setDescripcionNegocio(descripcionNegocio);
+			//TODO - negocioSeleccionado.setCodigoOrganizacion(codigoNombreOrganizacion);
+			negocioSeleccionado.setValorNegocio(valorNegocio);
+			negocioSeleccionado.setFechaCierreNegocio(fechaCierreNegocio);
+			negocioSeleccionado.setEstadoNegocio(estadoNegocio);
+			
+			//TODO - ajustar consultar nodo para que no reciba sino solamente el codigo del objeto y no con su descripcion
+			getListaNegocios().consultarNodo(codigoNegocio).setBusinessObject(negocioSeleccionado);
+		}
+	}
+
 	/*
 	//Inicio operaciones sobre la entidad Lista de Organizaciones
 	

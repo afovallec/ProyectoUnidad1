@@ -1,3 +1,4 @@
+package Business;
 
 public class Actividad extends BusinessObject{
 	private String codigoActividad;
