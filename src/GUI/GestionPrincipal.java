@@ -251,7 +251,7 @@ public class GestionPrincipal {
 				negocioSeleccionado.setDescripcionNegocio(textDescripcionNegocio.getText());
 				//TODO - negocioSeleccionado.setCodigoOrganizacion(codigoNombreOrganizacion);
 				negocioSeleccionado.setValorNegocio(Double.parseDouble(textValorNegocio.getText()));
-				negocioSeleccionado.setFechaCierreNegocio(textFechaCierreNegocio.getText());
+				negocioSeleccionado.setFechaCierreNegocio(textFechaCierreNegocio.getText().toString());
 				negocioSeleccionado.setEstadoNegocio(comboBoxEstadoNegocio.getSelectedIndex());
 				
 				//TODO - ajustar consultar nodo para que no reciba sino solamente el codigo del objeto y no con su descripcion

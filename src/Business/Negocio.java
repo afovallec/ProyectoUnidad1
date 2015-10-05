@@ -93,7 +93,7 @@ public class Negocio extends BusinessObject
 	}
 
 	public void setFechaCierreNegocio(String fechaCierreNegocio) {
-		if(fechaCierreNegocio.equalsIgnoreCase(""))
+		if(!fechaCierreNegocio.equalsIgnoreCase(""))
 			this.fechaCierreNegocio = fechaCierreNegocio;
 	}
 
