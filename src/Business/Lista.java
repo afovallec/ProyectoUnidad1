@@ -58,6 +58,7 @@ public class Lista {
 	public void eliminarNodo(String codigoNombreObjeto)
 	{
 		Nodo auxiliar = getPrimeroNodo();
+		Boolean nodoEliminado = Boolean.FALSE;
 		
 		if(listaVacia() != true)
 		{
@@ -65,7 +66,7 @@ public class Lista {
 			do
 			{
 				//TODO - Regresar a la definiciòn de solamente ccomparación por código objeto
-				if(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto() == codigoNombreObjeto)
+				if(codigoNombreObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto()))
 				{
 					
 					if(auxiliar == getPrimeroNodo())
@@ -85,12 +86,14 @@ public class Lista {
 					}
 					
 					disminuirNumeroNodos();
+					nodoEliminado = Boolean.TRUE;
+					break;
 				}
 				
 				auxiliar = auxiliar.getSiguienteNodo();
 			}while(auxiliar != null);
 			
-			if(auxiliar == null)
+			if((auxiliar == null) && (nodoEliminado == Boolean.FALSE))
 				System.out.println("El valor " + codigoNombreObjeto + " no ha sido encontrado para eliminación");
 		}
 		

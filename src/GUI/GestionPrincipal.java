@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 import Business.BusinessObject;
 import Business.Negocio;
@@ -35,12 +37,44 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class GestionPrincipal {
 
+	private SistemaBusinessFacade sistema;
+	private ArrayList<String> listaNegocios;
+	
 	private JFrame frameSistemaGestion;
 	private JTextField textCodigoNegocio;
 	private JTextField textTituloNegocio;
 	private JTextField textDescripcionNegocio;
 	private JTextField textValorNegocio;
 	private JTextField textFechaCierreNegocio;
+	
+	private JPanel panelAplicacion;
+	private JPanel panelPrincipal;
+	private JPanel panelNegocios;
+	
+	private JButton btnAdministrarNegocios;
+	private JButton btnAdministrarOrganizaciones;
+	private JButton btnAdministrarPersonas;
+	private JButton btnAdministrarActividades;
+	private JLabel lblListaNegocios;
+	private JComboBox<String> comboBoxListaNegocios;
+	private JButton btnDetalleNegocio;
+	private JButton btnEliminarNegocio;
+	private JButton btnAgregarNegocio;
+	private JButton btnVolverPrincipal;
+	private JPanel panelDetalleNegocio;
+	private JLabel lblCodigoNegocio;
+	private JLabel lblTituloNegocio;
+	private JLabel lblDescripcionNegocio;
+	private JLabel lblNombreOrganizacionNegocio;
+	private JComboBox<String> comboBoxNombreOrganizacionNegocio;
+	private JLabel lblValorNegocio;
+	private JLabel lblResponsableNegocio;
+	private JComboBox<String> comboBoxResponsableNegocio;
+	private JLabel lblFechaCierreNegocio;
+	private JLabel lblEstadoNegocio;
+	private JComboBox<String> comboBoxEstadoNegocio;
+	private JButton btnVolver;
+	private JButton btnAgregarActualizar;
 
 	/**
 	 * Launch the application.
@@ -72,11 +106,7 @@ public class GestionPrincipal {
 		//
 		BusinessObject negocio1;
 		
-		final SistemaBusinessFacade sistema;
-		
 		sistema = new SistemaBusinessFacade();
-		
-		final ArrayList<String> listaNegocios;
 		
 		for(int contador = 0; contador < 10; contador ++)
 		{
@@ -98,57 +128,58 @@ public class GestionPrincipal {
 		
 		frameSistemaGestion.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		final JPanel panelAplicacion = new JPanel();
+		panelAplicacion = new JPanel();
 		frameSistemaGestion.getContentPane().add(panelAplicacion);
 		panelAplicacion.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 8));
 		
-		final JPanel panelPrincipal = new JPanel();
+		panelPrincipal = new JPanel();
 		panelPrincipal.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Opciones del sistema", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelAplicacion.add(panelPrincipal);
 		panelPrincipal.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JButton btnAdministrarNegocios = new JButton("Administrar negocios");
+		btnAdministrarNegocios = new JButton("Administrar negocios");
 		panelPrincipal.add(btnAdministrarNegocios);
 		btnAdministrarNegocios.setActionCommand("Siguiente");
 		
-		JButton btnAdministrarOrganizaciones = new JButton("Administrar Organizaciones");
+		btnAdministrarOrganizaciones = new JButton("Administrar Organizaciones");
 		panelPrincipal.add(btnAdministrarOrganizaciones);
 		
-		JButton btnAdministrarPersonas = new JButton("Administrar Personas");
+		btnAdministrarPersonas = new JButton("Administrar Personas");
 		panelPrincipal.add(btnAdministrarPersonas);
 		
-		JButton btnAdministrarActividades = new JButton("Administrar Actividades");
+		btnAdministrarActividades = new JButton("Administrar Actividades");
 		panelPrincipal.add(btnAdministrarActividades);
 		
 		frameSistemaGestion.pack();
 		
-		final JPanel panelNegocios = new JPanel();
+		panelNegocios = new JPanel();
 		panelAplicacion.add(panelNegocios);
 		panelNegocios.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Administraci\u00F3n de Negocios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelNegocios.setLayout(new GridLayout(0, 1, 0, 0));
 		panelNegocios.setVisible(Boolean.FALSE);
 		
-		JLabel lblListaNegocios = new JLabel("Lista de negocios");
+		lblListaNegocios = new JLabel("Lista de negocios");
 		panelNegocios.add(lblListaNegocios);
 		
-		final JComboBox<String> comboBoxListaNegocios = new JComboBox<String>();
+		comboBoxListaNegocios = new JComboBox<String>();
 		panelNegocios.add(comboBoxListaNegocios);
 		
-		JButton btnDetalleNegocio = new JButton("Detalle Negocio");
+		btnDetalleNegocio = new JButton("Detalle Negocio");
 
 		panelNegocios.add(btnDetalleNegocio);
 		
-		JButton btnEliminarNegocio = new JButton("Eliminar Negocio");
+		btnEliminarNegocio = new JButton("Eliminar Negocio");
+
 		panelNegocios.add(btnEliminarNegocio);
 		
-		JButton btnAgregarNegocio = new JButton("Agregar Negocio");
+		btnAgregarNegocio = new JButton("Agregar Negocio");
 		panelNegocios.add(btnAgregarNegocio);
 		
-		JButton btnVolverPrincipal = new JButton("Volver al Menú principal");
+		btnVolverPrincipal = new JButton("Volver al Menú principal");
 		panelNegocios.add(btnVolverPrincipal);
 		btnVolverPrincipal.setActionCommand("Anterior");
 		
-		final JPanel panelDetalleNegocio = new JPanel();
+		panelDetalleNegocio = new JPanel();
 		panelDetalleNegocio.setBorder(new TitledBorder(null, "Detalle Negocio", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelAplicacion.add(panelDetalleNegocio);
 		panelDetalleNegocio.setVisible(Boolean.FALSE);
@@ -177,7 +208,7 @@ public class GestionPrincipal {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblCodigoNegocio = new JLabel("Código:");
+		lblCodigoNegocio = new JLabel("Código:");
 		panelDetalleNegocio.add(lblCodigoNegocio, "2, 2, left, default");
 		
 		textCodigoNegocio = new JTextField();
@@ -186,61 +217,61 @@ public class GestionPrincipal {
 		panelDetalleNegocio.add(textCodigoNegocio, "4, 2, fill, default");
 		textCodigoNegocio.setColumns(10);
 		
-		JLabel lblTituloNegocio = new JLabel("Título:");
+		lblTituloNegocio = new JLabel("Título:");
 		panelDetalleNegocio.add(lblTituloNegocio, "2, 4, left, default");
 		
 		textTituloNegocio = new JTextField();
 		panelDetalleNegocio.add(textTituloNegocio, "4, 4, fill, default");
 		textTituloNegocio.setColumns(10);
 		
-		JLabel lblDescripcionNegocio = new JLabel("Descripción:");
+		lblDescripcionNegocio = new JLabel("Descripción:");
 		panelDetalleNegocio.add(lblDescripcionNegocio, "2, 6, left, default");
 		
 		textDescripcionNegocio = new JTextField();
 		panelDetalleNegocio.add(textDescripcionNegocio, "4, 6, fill, default");
 		textDescripcionNegocio.setColumns(10);
 		
-		JLabel lblNombreOrganizacionNegocio = new JLabel("Nombre organización:");
+		lblNombreOrganizacionNegocio = new JLabel("Nombre organización:");
 		panelDetalleNegocio.add(lblNombreOrganizacionNegocio, "2, 8, right, default");
 		
-		JComboBox<String> comboBoxNombreOrganizacionNegocio = new JComboBox<String>();
+		comboBoxNombreOrganizacionNegocio = new JComboBox<String>();
 		panelDetalleNegocio.add(comboBoxNombreOrganizacionNegocio, "4, 8, fill, default");
 		
-		JLabel lblValorNegocio = new JLabel("Valor:");
+		lblValorNegocio = new JLabel("Valor:");
 		panelDetalleNegocio.add(lblValorNegocio, "2, 10, left, default");
 		
 		textValorNegocio = new JTextField();
 		panelDetalleNegocio.add(textValorNegocio, "4, 10, fill, default");
 		textValorNegocio.setColumns(10);
 		
-		JLabel lblResponsableNegocio = new JLabel("Responsable:");
+		lblResponsableNegocio = new JLabel("Responsable:");
 		panelDetalleNegocio.add(lblResponsableNegocio, "2, 12, left, default");
 		
-		JComboBox<String> comboBoxResponsableNegocio = new JComboBox<String>();
+		comboBoxResponsableNegocio = new JComboBox<String>();
 		panelDetalleNegocio.add(comboBoxResponsableNegocio, "4, 12, fill, default");
 		
-		JLabel lblFechaCierreNegocio = new JLabel("Fecha cierre:");
+		lblFechaCierreNegocio = new JLabel("Fecha cierre:");
 		panelDetalleNegocio.add(lblFechaCierreNegocio, "2, 14, left, default");
 		
 		textFechaCierreNegocio = new JTextField();
 		panelDetalleNegocio.add(textFechaCierreNegocio, "4, 14, fill, default");
 		textFechaCierreNegocio.setColumns(10);
 		
-		JLabel lblEstadoNegocio = new JLabel("Estado:");
+		lblEstadoNegocio = new JLabel("Estado:");
 		panelDetalleNegocio.add(lblEstadoNegocio, "2, 16, left, default");
 		
-		final JComboBox<String> comboBoxEstadoNegocio = new JComboBox<String>();
+		comboBoxEstadoNegocio = new JComboBox<String>();
 		panelDetalleNegocio.add(comboBoxEstadoNegocio, "4, 16, fill, default");
 
 		comboBoxEstadoNegocio.addItem("PENDIENTE");
 		comboBoxEstadoNegocio.addItem("ENEJECUCION");
 		comboBoxEstadoNegocio.addItem("CERRADO");
 		
-		JButton btnVolver = new JButton("Volver");
+		btnVolver = new JButton("Volver");
 
 		panelDetalleNegocio.add(btnVolver, "2, 18");
 		
-		JButton btnAgregarActualizar = new JButton("Agregar / Actualizar");
+		btnAgregarActualizar = new JButton("Agregar / Actualizar");
 		btnAgregarActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Negocio negocioSeleccionado;
@@ -259,7 +290,7 @@ public class GestionPrincipal {
 				
 				//TODO - Solucionar tema cuando se actualiza el campo de descripción del objeto y se requiere actualizar los ítems de a lista
 				//comboBoxListaNegocios.set
-				actualizarListaNegocios(comboBoxListaNegocios, listaNegocios);
+				actualizarListaNegocios(comboBoxListaNegocios);
 			}
 		});
 		panelDetalleNegocio.add(btnAgregarActualizar, "4, 18");
@@ -322,11 +353,41 @@ public class GestionPrincipal {
 			}
 		});
 		
-		actualizarListaNegocios(comboBoxListaNegocios, listaNegocios);
+		btnEliminarNegocio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String itemNegocioElegido = comboBoxListaNegocios.getSelectedItem().toString();
+				int respuestaSeleccionada = 0;
+				//TODO - Ajustar para consultar por código más no por código Nombre
+				Negocio negocioElegido = sistema.consultarNegocioPorCodigoNombre(itemNegocioElegido);
+				
+				respuestaSeleccionada = JOptionPane.showConfirmDialog(null,
+						"¿Está seguro que desea eliminar el Negocio " + negocioElegido.getCodigoObjeto() + "-" + negocioElegido.getDescripcionObjeto() + "?",
+						"Mensaje de confirmación",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+				
+				if(respuestaSeleccionada == 0)
+				{
+					sistema.getListaNegocios().eliminarNodo(itemNegocioElegido);
+					
+					JOptionPane.showMessageDialog(null,
+							"Ítem eliminado",
+							"Mensaje de información",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+					actualizarListaNegocios(comboBoxListaNegocios);
+				}
+			}
+		});
+		
+		actualizarListaNegocios(comboBoxListaNegocios);
 	}
 	
-	public void actualizarListaNegocios(JComboBox<String> comboBoxListaNegocios, ArrayList<String> listaNegocios)
+	public void actualizarListaNegocios(JComboBox<String> comboBoxListaNegocios)
 	{
+		comboBoxListaNegocios.removeAllItems();
+		listaNegocios = sistema.listarNegocios();
+		
 		for(int contador = 0; contador < listaNegocios.size(); contador ++)
 		{
 			comboBoxListaNegocios.addItem(listaNegocios.get(contador));
