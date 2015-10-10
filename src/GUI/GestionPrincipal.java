@@ -102,21 +102,18 @@ public class GestionPrincipal {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-		//
-		BusinessObject negocio1;
-		
+	private void initialize() {	
 		sistema = new SistemaBusinessFacade();
 		
 		for(int contador = 0; contador < 10; contador ++)
 		{
-			negocio1 = new Negocio(	"codn" + contador,
-								"Título negocio " + contador,
-								"Descripción negocio " + contador,
-								1000 + contador,
-								"1-ene-2015 " + contador);
-			
-			sistema.agregarNegocio((Negocio) negocio1);
+			sistema.agregarNegocio(	"Título negocio " + contador,
+									"Descripción negocio " + contador,
+									"ORGANIZACIONPRUEBAAGREGADA",
+									(double) 1000 + contador,
+									"PERSONAPRUEBAAGREGADA",
+									"1-ene-2015 " + contador,
+									Negocio.PENDIENTE);	
 		}
 		listaNegocios = sistema.listarNegocios();
 		//
@@ -173,6 +170,7 @@ public class GestionPrincipal {
 		panelNegocios.add(btnEliminarNegocio);
 		
 		btnAgregarNegocio = new JButton("Agregar Negocio");
+
 		panelNegocios.add(btnAgregarNegocio);
 		
 		btnVolverPrincipal = new JButton("Volver al Menú principal");
@@ -274,23 +272,66 @@ public class GestionPrincipal {
 		btnAgregarActualizar = new JButton("Agregar / Actualizar");
 		btnAgregarActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				/*
 				Negocio negocioSeleccionado;
 				
-				negocioSeleccionado = (Negocio) sistema.getListaNegocios().consultarNodo(textCodigoNegocio.getText()).getBusinessObject();
+				if(btnAgregarActualizar.getText().equalsIgnoreCase("Actualizar"))
+				{
+					negocioSeleccionado = (Negocio) sistema.getListaNegocios().consultarNodo(textCodigoNegocio.getText()).getBusinessObject();
+				}
+				else
+				{
+					negocioSeleccionado = new Negocio("", "", "", 0, "");
+				}
 				
 				negocioSeleccionado.setTituloNegocio(textTituloNegocio.getText());
 				negocioSeleccionado.setDescripcionNegocio(textDescripcionNegocio.getText());
 				//TODO - negocioSeleccionado.setCodigoOrganizacion(codigoNombreOrganizacion);
 				negocioSeleccionado.setValorNegocio(Double.parseDouble(textValorNegocio.getText()));
-				negocioSeleccionado.setFechaCierreNegocio(textFechaCierreNegocio.getText().toString());
+				negocioSeleccionado.setFechaCierreNegocio(textFechaCierreNegocio.getText());
 				negocioSeleccionado.setEstadoNegocio(comboBoxEstadoNegocio.getSelectedIndex());
 				
+				
 				//TODO - ajustar consultar nodo para que no reciba sino solamente el codigo del objeto y no con su descripcion
+				//TODO - ajustar para que los métodos de actualización y adición de negocio reciban los códigos de persona y organización elegidos
 				sistema.getListaNegocios().consultarNodo(textCodigoNegocio.getText()).setBusinessObject(negocioSeleccionado);
+				*/
+				if(btnAgregarActualizar.getText().equalsIgnoreCase("Actualizar"))
+				{
+					sistema.actualizarNegocio(	textCodigoNegocio.getText(),
+												textTituloNegocio.getText(),
+												textDescripcionNegocio.getText(),
+												"ORGANIZACIONPRUEBAACTUALIZADA",
+												Double.parseDouble(textValorNegocio.getText()),
+												"PERSONAPRUEBAAGREGADA",
+												textFechaCierreNegocio.getText(),
+												comboBoxEstadoNegocio.getSelectedIndex());
+					
+					JOptionPane.showMessageDialog(null,
+							"Ítem actualizado",
+							"Mensaje de información",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+				else
+				{
+					sistema.agregarNegocio(	textTituloNegocio.getText(),
+											textDescripcionNegocio.getText(),
+											"ORGANIZACIONPRUEBAAGREGADA",
+											Double.parseDouble(textValorNegocio.getText()),
+											"PERSONAPRUEBAAGREGADA",
+											textFechaCierreNegocio.getText(),
+											comboBoxEstadoNegocio.getSelectedIndex());
+					
+					JOptionPane.showMessageDialog(null,
+							"Ítem agregado",
+							"Mensaje de información",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
 				
 				//TODO - Solucionar tema cuando se actualiza el campo de descripción del objeto y se requiere actualizar los ítems de a lista
 				//comboBoxListaNegocios.set
 				actualizarListaNegocios(comboBoxListaNegocios);
+				
 			}
 		});
 		panelDetalleNegocio.add(btnAgregarActualizar, "4, 18");
@@ -315,6 +356,8 @@ public class GestionPrincipal {
 		
 		btnDetalleNegocio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btnAgregarActualizar.setText("Actualizar");
+				
 				String itemNegocioElegido = comboBoxListaNegocios.getSelectedItem().toString();
 				//TODO - Ajustar para consultar por código más no por código Nombre
 				Negocio negocioElegido = sistema.consultarNegocioPorCodigoNombre(itemNegocioElegido);
@@ -342,11 +385,22 @@ public class GestionPrincipal {
 				panelNegocios.setVisible(Boolean.FALSE);
 				panelDetalleNegocio.setVisible(Boolean.TRUE);
 				frameSistemaGestion.pack();
+				
+				
 			}
 		});
 		
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textCodigoNegocio.setVisible(Boolean.TRUE);
+				lblCodigoNegocio.setVisible(Boolean.TRUE);
+				
+				textTituloNegocio.setText("");
+				textDescripcionNegocio.setText("");
+				textValorNegocio.setText(Double.toString(0));
+				textFechaCierreNegocio.setText("1-oct-2015");
+				comboBoxEstadoNegocio.setSelectedIndex(0);
+				
 				panelNegocios.setVisible(Boolean.TRUE);
 				panelDetalleNegocio.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
@@ -377,6 +431,18 @@ public class GestionPrincipal {
 					
 					actualizarListaNegocios(comboBoxListaNegocios);
 				}
+			}
+		});
+		
+		btnAgregarNegocio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAgregarActualizar.setText("Agregar");			
+				
+				textCodigoNegocio.setVisible(Boolean.FALSE);
+				lblCodigoNegocio.setVisible(Boolean.FALSE);
+				panelNegocios.setVisible(Boolean.FALSE);
+				panelDetalleNegocio.setVisible(Boolean.TRUE);
+				frameSistemaGestion.pack();
 			}
 		});
 		

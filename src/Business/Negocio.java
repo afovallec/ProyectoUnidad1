@@ -15,9 +15,12 @@ public class Negocio extends BusinessObject
 	public static final int ENEJECUCION = 1;
 	public static final int CERRADO = 2;
 	
-	public Negocio(String codigoNegocio, String tituloNegocio,
+	public Negocio(String codigoNegocio,
+			String tituloNegocio,
 			String descripcionNegocio,
+			String codigoNombreOrganizacion,
 			double valorNegocio,
+			String codigoNombrePersona,
 			String fechaCierreNegocio)
 	{
 		super(codigoNegocio, tituloNegocio);

@@ -8,12 +8,27 @@ public class SistemaBusinessFacade {
 	private Lista listaActividades;
 	private Lista listaNegociosPorOrganizacion;
 	
+	public static final String prefijoCodigoNegocio = "codn";
+	public static final String prefijoCodigoOrganziacion = "codo";
+	public static final String prefijoCodigoPersona = "codp";
+	public static final String prefijoCodigoActividades = "coda";
+	
+	private int consecutivoNegocio;
+	private int consecutivoOrganizacion;
+	private int consecutivoPersona;
+	private int consecutivoActividad;
+	
 	public SistemaBusinessFacade() {
 		this.listaNegocios = new Lista();
 		this.listaOrganizaciones = new Lista();
 		this.listaPersonas = new Lista();
 		this.listaActividades = new Lista();
 		this.listaNegociosPorOrganizacion = new Lista();
+		
+		consecutivoNegocio = 0;
+		consecutivoActividad = 0;
+		consecutivoPersona = 0;
+		consecutivoOrganizacion = 0;
 	}
 	
 	public Lista getListaNegocios() {
@@ -35,11 +50,69 @@ public class SistemaBusinessFacade {
 	public Lista getListaNegociosPorOrganizacion() {
 		return listaNegociosPorOrganizacion;
 	}
+	
+	public int getConsecutivoNegocio()
+	{
+		return consecutivoNegocio;
+	}
+	
+	public void incrementarConsecutivoNegocio()
+	{
+		this.consecutivoNegocio ++;
+	}
+	
+	public int getConsecutivoActividad()
+	{
+		return consecutivoActividad;
+	}
 
+	public void incrementarConsecutivoActividad()
+	{
+		this.consecutivoActividad ++;
+	}
+	
+	public int getConsecutivoPersona()
+	{
+		return consecutivoPersona;
+	}
+	
+	public void incrementarConsecutivoPersona()
+	{
+		this.consecutivoPersona ++;
+	}
+	
+	public int getConsecutivoOrganizacion()
+	{
+		return consecutivoOrganizacion;
+	}
+
+	public void incrementarConsecutivoOrganizacion()
+	{
+		this.consecutivoOrganizacion ++;
+	}
+	
 	//Inicio operaciones sobre la entidad Lista de Negocios
 	
-	public void agregarNegocio(Negocio negocio)
+	public void agregarNegocio(String tituloNegocio,
+			String descripcionNegocio,
+			String codigoNombreOrganizacion,
+			double valorNegocio,
+			String codigoNombrePersona,
+			String fechaCierreNegocio,
+			int estadoNegocio)
 	{
+		Negocio negocio;
+		
+		negocio = new Negocio(	SistemaBusinessFacade.prefijoCodigoNegocio + Integer.toString(getConsecutivoNegocio()),
+								tituloNegocio,
+								descripcionNegocio,
+								codigoNombreOrganizacion,
+								valorNegocio,
+								codigoNombrePersona,
+								fechaCierreNegocio);
+		
+		incrementarConsecutivoNegocio();
+		
 		if(!getListaNegocios().existeNodo(negocio.getCodigoObjeto()))
 			getListaNegocios().agregarNodo(negocio);
 		else
@@ -97,10 +170,14 @@ public class SistemaBusinessFacade {
 		}
 	}
 	
-	public void actualizarNegocio(String codigoNegocio, String tituloNegocio,
-		String descripcionNegocio, String codigoNombreOrganizacion,
-		double valorNegocio,
-		String fechaCierreNegocio, int estadoNegocio)
+	public void actualizarNegocio(String codigoNegocio,
+			String tituloNegocio,
+			String descripcionNegocio,
+			String codigoNombreOrganizacion,
+			double valorNegocio,
+			String codigoNombrePersona,
+			String fechaCierreNegocio,
+			int estadoNegocio)
 	{
 		Negocio negocioSeleccionado;
 		negocioSeleccionado = (Negocio) getListaNegocios().consultarNodo(codigoNegocio).getBusinessObject();
@@ -111,6 +188,7 @@ public class SistemaBusinessFacade {
 			negocioSeleccionado.setDescripcionNegocio(descripcionNegocio);
 			//TODO - negocioSeleccionado.setCodigoOrganizacion(codigoNombreOrganizacion);
 			negocioSeleccionado.setValorNegocio(valorNegocio);
+			//TODO - negocioSeleccionado.setCodigoPersona(codigoNombreOrganizacion);
 			negocioSeleccionado.setFechaCierreNegocio(fechaCierreNegocio);
 			negocioSeleccionado.setEstadoNegocio(estadoNegocio);
 			
