@@ -7,7 +7,7 @@ public class Negocio extends BusinessObject
 	private String descripcionNegocio;
 	private String codigoOrganizacion;
 	private double valorNegocio;
-	private String nombrePersona;
+	private String codigoPersona;
 	private String fechaCierreNegocio;
 	private int estadoNegocio;
 	
@@ -15,22 +15,22 @@ public class Negocio extends BusinessObject
 	public static final int ENEJECUCION = 1;
 	public static final int CERRADO = 2;
 	
-	public Negocio(String codigoNegocio,
-			String tituloNegocio,
-			String descripcionNegocio,
-			String codigoNombreOrganizacion,
-			double valorNegocio,
-			String codigoNombrePersona,
-			String fechaCierreNegocio)
+	public Negocio(	String codigoNegocio,
+					String tituloNegocio,
+					String descripcionNegocio,
+					String codigoOrganizacion,
+					double valorNegocio,
+					String codigoPersona,
+					String fechaCierreNegocio)
 	{
 		super(codigoNegocio, tituloNegocio);
 		this.codigoNegocio = codigoNegocio;
 		this.tituloNegocio = tituloNegocio;
 		this.descripcionNegocio = descripcionNegocio;
-		this.codigoOrganizacion = "SINASIGNAR";
+		this.codigoOrganizacion = codigoOrganizacion;
 		this.valorNegocio = valorNegocio;
 		//TODO - Cambiar por código de la persona
-		this.nombrePersona = "SINASIGNAR";
+		this.codigoPersona = codigoPersona;
 		this.fechaCierreNegocio = fechaCierreNegocio;
 		this.estadoNegocio = Negocio.PENDIENTE;
 	}
@@ -50,8 +50,10 @@ public class Negocio extends BusinessObject
 
 	public void setTituloNegocio(String tituloNegocio) {
 		if(!tituloNegocio.equalsIgnoreCase(""))
+		{
 			this.tituloNegocio = tituloNegocio;
 			super.setDescripcionObjeto(tituloNegocio);
+		}
 	}
 
 	public String getDescripcionNegocio() {
@@ -82,13 +84,13 @@ public class Negocio extends BusinessObject
 			this.valorNegocio = valorNegocio;
 	}
 
-	public String getNombrePersona() {
-		return nombrePersona;
+	public String getCodigoPersona() {
+		return codigoPersona;
 	}
 
-	public void setNombrePersona(String nombrePersona) {
-		if(!nombrePersona.equalsIgnoreCase(""))
-			this.nombrePersona = nombrePersona;
+	public void setCodigoPersona(String codigoPersona) {
+		if(!codigoPersona.equalsIgnoreCase(""))
+			this.codigoPersona = codigoPersona;
 	}
 
 	public String getFechaCierreNegocio() {
@@ -121,7 +123,7 @@ public class Negocio extends BusinessObject
 						"\n\tDescripción negocio: " + getDescripcionNegocio() + 
 						"\n\tCódigo organización: " + getCodigoOrganizacion() + 
 						"\n\tValor negocio: " + Double.toString(getValorNegocio()) + 
-						"\n\tNombre responsable negocio: " + getNombrePersona() +
+						"\n\tCódigo responsable negocio: " + getCodigoPersona() +
 						"\n\tFecha cierre negocio: " + getFechaCierreNegocio() + 
 						"\n\tEstado negocio: " + getEstadoNegocio();
 		}

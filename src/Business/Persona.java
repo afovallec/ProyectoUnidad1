@@ -1,30 +1,51 @@
 package Business;
 
 public class Persona extends BusinessObject{
+	private String codigoPersona;
 	private String tipoDocumentoPersona;
 	private String numeroDocumentoPersona;
 	private String nombrePersona;
-	private String telofonoPersona;
+	private String telefonoPersona;
 	private String emailPersona;
 	
-	public Persona(String tipoDocumentoPersona, String numeroDocumentoPersona,
-			String nombrePersona, String telofonoPersona, String emailPersona)
+	public static final int CEDULA = 0;
+	public static final int TARJETAIDENTIDAD = 1;
+	public static final int NIT = 2;
+	
+	
+	public Persona(	String codigoPersona,
+					String tipoDocumentoPersona,
+					String numeroDocumentoPersona,
+					String nombrePersona,
+					String telefonoPersona,
+					String emailPersona)
 	{
-		super(tipoDocumentoPersona + numeroDocumentoPersona, nombrePersona);
+		super(codigoPersona, nombrePersona);
 		this.tipoDocumentoPersona = tipoDocumentoPersona;
 		this.numeroDocumentoPersona = numeroDocumentoPersona;
 		this.nombrePersona = nombrePersona;
-		this.telofonoPersona = telofonoPersona;
+		this.telefonoPersona = telefonoPersona;
 		this.emailPersona = emailPersona;
 	}
 
+	public String getCodigoPersona()
+	{
+		return codigoPersona;
+	}
+	
+	public void setCodigoPersona(String codigoPersona)
+	{
+		this.codigoPersona = codigoPersona;
+		setCodigoObjeto(codigoPersona);
+	}
+	
 	public String getTipoDocumentoPersona() {
 		return tipoDocumentoPersona;
 	}
 
 	public void setTipoDocumentoPersona(String tipoDocumentoPersona) {
-		this.tipoDocumentoPersona = tipoDocumentoPersona;
-		setCodigoObjeto(tipoDocumentoPersona + getNumeroDocumentoPersona());
+		if(!tipoDocumentoPersona.equalsIgnoreCase(""))
+			this.tipoDocumentoPersona = tipoDocumentoPersona;
 	}
 
 	public String getNumeroDocumentoPersona() {
@@ -32,8 +53,8 @@ public class Persona extends BusinessObject{
 	}
 
 	public void setNumeroDocumentoPersona(String numeroDocumentoPersona) {
-		this.numeroDocumentoPersona = numeroDocumentoPersona;
-		setCodigoObjeto(getTipoDocumentoPersona() + numeroDocumentoPersona);
+		if(!numeroDocumentoPersona.equalsIgnoreCase(""))
+			this.numeroDocumentoPersona = numeroDocumentoPersona;
 	}
 
 	public String getNombrePersona() {
@@ -41,15 +62,20 @@ public class Persona extends BusinessObject{
 	}
 
 	public void setNombrePersona(String nombrePersona) {
-		this.nombrePersona = nombrePersona;
+		if(!nombrePersona.equalsIgnoreCase(""))
+		{
+			this.nombrePersona = nombrePersona;
+			setDescripcionObjeto(nombrePersona);
+		}
 	}
 
-	public String getTelofonoPersona() {
-		return telofonoPersona;
+	public String getTelefonoPersona() {
+		return telefonoPersona;
 	}
 
-	public void setTelofonoPersona(String telofonoPersona) {
-		this.telofonoPersona = telofonoPersona;
+	public void setTelefonoPersona(String telefonoPersona) {
+		if(!telefonoPersona.equalsIgnoreCase(""))
+			this.telefonoPersona = telefonoPersona;
 	}
 
 	public String getEmailPersona() {
@@ -57,11 +83,12 @@ public class Persona extends BusinessObject{
 	}
 
 	public void setEmailPersona(String emailPersona) {
-		this.emailPersona = emailPersona;
+		if(emailPersona.equalsIgnoreCase(""))
+			this.emailPersona = emailPersona;
 	}
 	
 	public String toString()
 	{
-		return 	"INFORMACIÓN PERSONA: " + getCodigoObjeto();
+		return 	getCodigoObjeto() + "-" + getDescripcionObjeto();
 	}
 }

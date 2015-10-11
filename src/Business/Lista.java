@@ -72,7 +72,7 @@ public class Lista {
 					if(auxiliar == getPrimeroNodo())
 					{
 						setPrimeroNodo(getPrimeroNodo().getSiguienteNodo());
-						getPrimeroNodo().setAnteriorNodo(null);
+						//getPrimeroNodo().setAnteriorNodo(null);
 					}
 					else if(auxiliar == getUltimoNodo())
 					{

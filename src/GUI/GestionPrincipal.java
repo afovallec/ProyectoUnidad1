@@ -5,10 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-import Business.BusinessObject;
 import Business.Negocio;
 import Business.SistemaBusinessFacade;
 
@@ -38,23 +36,26 @@ import com.jgoodies.forms.layout.RowSpec;
 public class GestionPrincipal {
 
 	private SistemaBusinessFacade sistema;
-	private ArrayList<String> listaNegocios;
+	//private ArrayList<String> listaNegocios;
 	
 	private JFrame frameSistemaGestion;
-	private JTextField textCodigoNegocio;
-	private JTextField textTituloNegocio;
-	private JTextField textDescripcionNegocio;
-	private JTextField textValorNegocio;
-	private JTextField textFechaCierreNegocio;
+
 	
 	private JPanel panelAplicacion;
 	private JPanel panelPrincipal;
 	private JPanel panelNegocios;
+	private JPanel panelPersonas;
 	
 	private JButton btnAdministrarNegocios;
 	private JButton btnAdministrarOrganizaciones;
 	private JButton btnAdministrarPersonas;
 	private JButton btnAdministrarActividades;
+	
+	private JTextField textCodigoNegocio;
+	private JTextField textTituloNegocio;
+	private JTextField textDescripcionNegocio;
+	private JTextField textValorNegocio;
+	private JTextField textFechaCierreNegocio;
 	private JLabel lblListaNegocios;
 	private JComboBox<String> comboBoxListaNegocios;
 	private JButton btnDetalleNegocio;
@@ -75,6 +76,32 @@ public class GestionPrincipal {
 	private JComboBox<String> comboBoxEstadoNegocio;
 	private JButton btnVolver;
 	private JButton btnAgregarActualizar;
+	
+	private JTextField textCodigoPersona;
+	private JTextField textTituloPersona;
+	private JTextField textDescripcionPersona;
+	private JTextField textValorPersona;
+	private JTextField textFechaCierrePersona;
+	private JLabel lblListaPersonas;
+	private JComboBox<String> comboBoxListaPersonas;
+	private JButton btnDetallePersona;
+	private JButton btnEliminarPersona;
+	private JButton btnAgregarPersona;
+	private JButton btnVolverPrincipalPersona;
+	private JPanel panelDetallePersona;
+	private JLabel lblCodigoPersona;
+	private JLabel lblTituloPersona;
+	private JLabel lblDescripcionPersona;
+	private JLabel lblNombreOrganizacionPersona;
+	private JComboBox<String> comboBoxNombreOrganizacionPersona;
+	private JLabel lblValorPersona;
+	private JLabel lblResponsablePersona;
+	private JComboBox<String> comboBoxResponsablePersona;
+	private JLabel lblFechaCierrePersona;
+	private JLabel lblEstadoPersona;
+	private JComboBox<String> comboBoxEstadoPersona;
+	private JButton btnVolverPersona;
+	private JButton btnAgregarActualizarPersona;
 
 	/**
 	 * Launch the application.
@@ -105,7 +132,7 @@ public class GestionPrincipal {
 	private void initialize() {	
 		sistema = new SistemaBusinessFacade();
 		
-		for(int contador = 0; contador < 10; contador ++)
+		for(int contador = 0; contador < 1; contador ++)
 		{
 			sistema.agregarNegocio(	"Título negocio " + contador,
 									"Descripción negocio " + contador,
@@ -115,7 +142,7 @@ public class GestionPrincipal {
 									"1-ene-2015 " + contador,
 									Negocio.PENDIENTE);	
 		}
-		listaNegocios = sistema.listarNegocios();
+		//listaNegocios = sistema.listarNegocios();
 		//
 		
 		frameSistemaGestion = new JFrame();
@@ -134,7 +161,7 @@ public class GestionPrincipal {
 		panelAplicacion.add(panelPrincipal);
 		panelPrincipal.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		btnAdministrarNegocios = new JButton("Administrar negocios");
+		btnAdministrarNegocios = new JButton("Administrar Negocios");
 		panelPrincipal.add(btnAdministrarNegocios);
 		btnAdministrarNegocios.setActionCommand("Siguiente");
 		
@@ -142,6 +169,7 @@ public class GestionPrincipal {
 		panelPrincipal.add(btnAdministrarOrganizaciones);
 		
 		btnAdministrarPersonas = new JButton("Administrar Personas");
+
 		panelPrincipal.add(btnAdministrarPersonas);
 		
 		btnAdministrarActividades = new JButton("Administrar Actividades");
@@ -330,8 +358,14 @@ public class GestionPrincipal {
 				
 				//TODO - Solucionar tema cuando se actualiza el campo de descripción del objeto y se requiere actualizar los ítems de a lista
 				//comboBoxListaNegocios.set
-				actualizarListaNegocios(comboBoxListaNegocios);
+				actualizarListaNegocios();
 				
+				
+				if(sistema.getListaNegocios().getNumeroNodos() > 0)
+				{
+					btnEliminarNegocio.setEnabled(Boolean.TRUE);
+					btnDetalleNegocio.setEnabled(Boolean.TRUE);
+				}
 			}
 		});
 		panelDetalleNegocio.add(btnAgregarActualizar, "4, 18");
@@ -429,7 +463,13 @@ public class GestionPrincipal {
 							"Mensaje de información",
 							JOptionPane.INFORMATION_MESSAGE);
 					
-					actualizarListaNegocios(comboBoxListaNegocios);
+					actualizarListaNegocios();
+				}
+				
+				if(sistema.getListaNegocios().getNumeroNodos() == 0)
+				{
+					btnEliminarNegocio.setEnabled(Boolean.FALSE);
+					btnDetalleNegocio.setEnabled(Boolean.FALSE);
 				}
 			}
 		});
@@ -446,17 +486,167 @@ public class GestionPrincipal {
 			}
 		});
 		
-		actualizarListaNegocios(comboBoxListaNegocios);
+		//Panel de Personas
+		panelPersonas = new JPanel();
+		panelAplicacion.add(panelPersonas);
+		panelPersonas.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Administración de Personas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelPersonas.setLayout(new GridLayout(0, 1, 0, 0));
+		panelPersonas.setVisible(Boolean.FALSE);
+		
+		lblListaPersonas = new JLabel("Lista de personas");
+		panelPersonas.add(lblListaPersonas);
+		
+		comboBoxListaPersonas = new JComboBox<String>();
+		panelPersonas.add(comboBoxListaPersonas);
+		
+		btnDetallePersona = new JButton("Detalle Persona");
+
+		panelPersonas.add(btnDetallePersona);
+		
+		btnEliminarPersona = new JButton("Eliminar Persona");
+
+		panelPersonas.add(btnEliminarPersona);
+		
+		btnAgregarPersona = new JButton("Agregar Persona");
+
+		panelPersonas.add(btnAgregarPersona);
+		
+		btnVolverPrincipalPersona = new JButton("Volver al Menú principal");
+
+		panelPersonas.add(btnVolverPrincipalPersona);
+		btnVolverPrincipalPersona.setActionCommand("Anterior");
+		
+		panelDetallePersona = new JPanel();
+		panelDetallePersona.setBorder(new TitledBorder(null, "Detalle Persona", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelAplicacion.add(panelDetallePersona);
+		panelDetallePersona.setVisible(Boolean.FALSE);
+		panelDetallePersona.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		lblCodigoPersona = new JLabel("Código:");
+		panelDetallePersona.add(lblCodigoPersona, "2, 2, left, default");
+		
+		textCodigoPersona = new JTextField();
+		textCodigoPersona.setEnabled(false);
+		textCodigoPersona.setEditable(false);
+		panelDetallePersona.add(textCodigoPersona, "4, 2, fill, default");
+		textCodigoPersona.setColumns(10);
+		
+		lblTituloPersona = new JLabel("Título:");
+		panelDetallePersona.add(lblTituloPersona, "2, 4, left, default");
+		
+		textTituloPersona = new JTextField();
+		panelDetallePersona.add(textTituloPersona, "4, 4, fill, default");
+		textTituloPersona.setColumns(10);
+		
+		lblDescripcionPersona = new JLabel("Descripción:");
+		panelDetallePersona.add(lblDescripcionPersona, "2, 6, left, default");
+		
+		textDescripcionPersona = new JTextField();
+		panelDetallePersona.add(textDescripcionPersona, "4, 6, fill, default");
+		textDescripcionPersona.setColumns(10);
+		
+		lblNombreOrganizacionPersona = new JLabel("Nombre organización:");
+		panelDetallePersona.add(lblNombreOrganizacionPersona, "2, 8, right, default");
+		
+		comboBoxNombreOrganizacionPersona = new JComboBox<String>();
+		panelDetallePersona.add(comboBoxNombreOrganizacionPersona, "4, 8, fill, default");
+		
+		lblValorPersona = new JLabel("Valor:");
+		panelDetallePersona.add(lblValorPersona, "2, 10, left, default");
+		
+		textValorPersona = new JTextField();
+		panelDetallePersona.add(textValorPersona, "4, 10, fill, default");
+		textValorPersona.setColumns(10);
+		
+		lblResponsablePersona = new JLabel("Responsable:");
+		panelDetallePersona.add(lblResponsablePersona, "2, 12, left, default");
+		
+		comboBoxResponsablePersona = new JComboBox<String>();
+		panelDetallePersona.add(comboBoxResponsablePersona, "4, 12, fill, default");
+		
+		lblFechaCierrePersona = new JLabel("Fecha cierre:");
+		panelDetallePersona.add(lblFechaCierrePersona, "2, 14, left, default");
+		
+		textFechaCierrePersona = new JTextField();
+		panelDetallePersona.add(textFechaCierrePersona, "4, 14, fill, default");
+		textFechaCierrePersona.setColumns(10);
+		
+		lblEstadoPersona = new JLabel("Estado:");
+		panelDetallePersona.add(lblEstadoPersona, "2, 16, left, default");
+		
+		comboBoxEstadoPersona = new JComboBox<String>();
+		panelDetallePersona.add(comboBoxEstadoPersona, "4, 16, fill, default");
+
+		comboBoxEstadoPersona.addItem("PENDIENTE");
+		comboBoxEstadoPersona.addItem("ENEJECUCION");
+		comboBoxEstadoPersona.addItem("CERRADO");
+		
+		btnVolverPersona = new JButton("Volver");
+
+		panelDetallePersona.add(btnVolverPersona, "2, 18");
+		
+		btnAgregarActualizarPersona = new JButton("Agregar / Actualizar");
+		
+		btnAdministrarPersonas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panelPersonas.setVisible(Boolean.TRUE);
+				panelPrincipal.setVisible(Boolean.FALSE);
+				frameSistemaGestion.pack();
+			}
+		});
+		
+		btnVolverPrincipalPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				panelPrincipal.setVisible(Boolean.TRUE);
+				panelPersonas.setVisible(Boolean.FALSE);
+				frameSistemaGestion.pack();
+			}
+		});
+		//Fin Panel de Personas
+		
+		
+		
+		
+		actualizarListaNegocios();
 	}
 	
-	public void actualizarListaNegocios(JComboBox<String> comboBoxListaNegocios)
+	public void actualizarListaNegocios()
 	{
 		comboBoxListaNegocios.removeAllItems();
-		listaNegocios = sistema.listarNegocios();
+
+		ArrayList<String> listaNegocios = sistema.listarNegocios();
 		
-		for(int contador = 0; contador < listaNegocios.size(); contador ++)
+		if(listaNegocios != null)
 		{
-			comboBoxListaNegocios.addItem(listaNegocios.get(contador));
-		}		
+			for(int contador = 0; contador < listaNegocios.size(); contador ++)
+			{
+				comboBoxListaNegocios.addItem(listaNegocios.get(contador));
+			}
+		}
 	}
 }
