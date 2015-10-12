@@ -181,7 +181,7 @@ public class Lista {
 		return null;
 	}
 	
-	public Boolean existeNodo(String codigoObjeto)
+	public Boolean existeNodoPorCodigoNombre(String codigoNombreObjeto)
 	{
 		Nodo auxiliar = getPrimeroNodo();
 		
@@ -192,7 +192,34 @@ public class Lista {
 			{
 				
 				//TODO - Regresar a la definición de comparación únicamente por código objeto
-				if(codigoObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto()))
+				if(codigoNombreObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto()))
+				{
+					return Boolean.TRUE;
+
+				}
+				
+				auxiliar = auxiliar.getSiguienteNodo();
+			}while(auxiliar != null);
+			
+			if(auxiliar == null)
+				return Boolean.FALSE;
+		}
+
+		return Boolean.FALSE;
+	}
+	
+	public Boolean existeNodoPorCodigo(String codigoObjeto)
+	{
+		Nodo auxiliar = getPrimeroNodo();
+		
+		if(listaVacia() != true)
+		{
+			
+			do
+			{
+				
+				//TODO - Regresar a la definición de comparación únicamente por código objeto
+				if(codigoObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto()))
 				{
 					return Boolean.TRUE;
 

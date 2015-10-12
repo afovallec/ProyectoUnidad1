@@ -2,7 +2,7 @@ package Business;
 
 public class Persona extends BusinessObject{
 	private String codigoPersona;
-	private String tipoDocumentoPersona;
+	private int tipoDocumentoPersona;
 	private String numeroDocumentoPersona;
 	private String nombrePersona;
 	private String telefonoPersona;
@@ -14,13 +14,14 @@ public class Persona extends BusinessObject{
 	
 	
 	public Persona(	String codigoPersona,
-					String tipoDocumentoPersona,
+					int tipoDocumentoPersona,
 					String numeroDocumentoPersona,
 					String nombrePersona,
 					String telefonoPersona,
 					String emailPersona)
 	{
 		super(codigoPersona, nombrePersona);
+		this.codigoPersona = codigoPersona;
 		this.tipoDocumentoPersona = tipoDocumentoPersona;
 		this.numeroDocumentoPersona = numeroDocumentoPersona;
 		this.nombrePersona = nombrePersona;
@@ -39,12 +40,12 @@ public class Persona extends BusinessObject{
 		setCodigoObjeto(codigoPersona);
 	}
 	
-	public String getTipoDocumentoPersona() {
+	public int getTipoDocumentoPersona() {
 		return tipoDocumentoPersona;
 	}
 
-	public void setTipoDocumentoPersona(String tipoDocumentoPersona) {
-		if(!tipoDocumentoPersona.equalsIgnoreCase(""))
+	public void setTipoDocumentoPersona(int tipoDocumentoPersona) {
+		if(!(tipoDocumentoPersona == 0))
 			this.tipoDocumentoPersona = tipoDocumentoPersona;
 	}
 

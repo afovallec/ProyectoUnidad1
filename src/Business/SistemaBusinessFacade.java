@@ -113,7 +113,7 @@ public class SistemaBusinessFacade {
 		
 		incrementarConsecutivoNegocio();
 		
-		if(!getListaNegocios().existeNodo(negocio.getCodigoObjeto()))
+		if(!getListaNegocios().existeNodoPorCodigoNombre(negocio.getCodigoObjeto()))
 			getListaNegocios().agregarNodo(negocio);
 		else
 			System.out.println("No pudo agregarse el negocio de código " + negocio.getCodigoObjeto() + " a la lista de negocios");
@@ -121,7 +121,7 @@ public class SistemaBusinessFacade {
 	
 	public Negocio consultarNegocioPorCodigo(String codigoNegocio)
 	{	
-		if(getListaNegocios().existeNodo(codigoNegocio))
+		if(getListaNegocios().existeNodoPorCodigoNombre(codigoNegocio))
 		{
 			return (Negocio) getListaNegocios().consultarNodo(codigoNegocio).getBusinessObject();
 		}
@@ -139,7 +139,7 @@ public class SistemaBusinessFacade {
 	
 	public void eliminarNegocio(String codigoNombreNegocio)
 	{
-		if(getListaNegocios().existeNodo(codigoNombreNegocio))
+		if(getListaNegocios().existeNodoPorCodigoNombre(codigoNombreNegocio))
 		{
 			getListaNegocios().eliminarNodo(codigoNombreNegocio);
 		}
@@ -188,7 +188,7 @@ public class SistemaBusinessFacade {
 			negocioSeleccionado.setDescripcionNegocio(descripcionNegocio);
 			//TODO - negocioSeleccionado.setCodigoOrganizacion(codigoNombreOrganizacion);
 			negocioSeleccionado.setValorNegocio(valorNegocio);
-			//TODO - negocioSeleccionado.setCodigoPersona(codigoNombreOrganizacion);
+			negocioSeleccionado.setCodigoPersona(codigoNombrePersona);
 			negocioSeleccionado.setFechaCierreNegocio(fechaCierreNegocio);
 			negocioSeleccionado.setEstadoNegocio(estadoNegocio);
 			
@@ -199,7 +199,7 @@ public class SistemaBusinessFacade {
 
 	//Inicio operaciones sobre la entidad Lista de Personas
 	
-	public void agregarPersona(	String tipoDocumentoPersona,
+	public void agregarPersona(	int tipoDocumentoPersona,
 								String numeroDocumentoPersona,
 								String nombrePersona,
 								String telefonoPersona,
@@ -216,7 +216,7 @@ public class SistemaBusinessFacade {
 		
 		incrementarConsecutivoPersona();
 		
-		if(!getListaPersonas().existeNodo(persona.getCodigoObjeto()))
+		if(!getListaPersonas().existeNodoPorCodigoNombre(persona.getCodigoObjeto()))
 			getListaPersonas().agregarNodo(persona);
 		else
 			System.out.println("No pudo agregarse el persona de código " + persona.getCodigoObjeto() + " a la lista de personas");
@@ -224,9 +224,9 @@ public class SistemaBusinessFacade {
 	
 	public Persona consultarPersonaPorCodigoNombre(String codigoNombrePersona)
 	{
-		if(getListaPersonas().existeNodo(codigoNombrePersona))
+		if(getListaPersonas().existeNodoPorCodigoNombre(codigoNombrePersona))
 		{
-			return (Persona) getListaPersonas().consultarNodo(codigoNombrePersona).getBusinessObject();
+			return (Persona) getListaPersonas().consultarNodoCodigoNombre(codigoNombrePersona).getBusinessObject();
 		}
 		else
 		{
@@ -235,14 +235,9 @@ public class SistemaBusinessFacade {
 		}
 	}
 	
-	public Persona consultarPersonaPorIdentificacionNombre(String codigoNombrePersona)
-	{
-		return (Persona) getListaPersonas().consultarNodoCodigoNombre(codigoNombrePersona).getBusinessObject();
-	}
-	
 	public void eliminarPersona(String codigoNombrePersona)
 	{	
-		if(getListaPersonas().existeNodo(codigoNombrePersona))
+		if(getListaPersonas().existeNodoPorCodigoNombre(codigoNombrePersona))
 		{
 			getListaNegocios().eliminarNodo(codigoNombrePersona);
 		}
@@ -274,7 +269,98 @@ public class SistemaBusinessFacade {
 	}
 	
 	public void actualizarPersona(	String codigoPersona,
-									String tipoDocumentoPersona,
+									int tipoDocumentoPersona,
+									String numeroDocumentoPersona,
+									String nombrePersona,
+									String telefonoPersona,
+									String emailPersona)
+	{
+		Persona personaSeleccionada;
+		personaSeleccionada = (Persona) getListaPersonas().consultarNodo(codigoPersona).getBusinessObject();
+
+		if(personaSeleccionada != null)
+		{
+			personaSeleccionada.setTipoDocumentoPersona(tipoDocumentoPersona);
+			personaSeleccionada.setNumeroDocumentoPersona(numeroDocumentoPersona);
+			personaSeleccionada.setNombrePersona(nombrePersona);
+			personaSeleccionada.setTelefonoPersona(telefonoPersona);
+			personaSeleccionada.setEmailPersona(emailPersona);
+			
+			getListaPersonas().consultarNodo(codigoPersona).setBusinessObject(personaSeleccionada);
+		}
+	}
+	
+	//Inicio operaciones sobre la entidad Lista de Organizaciones
+	
+	public void agregarOrganizacion(	String nitOrganizacion,
+										String nombreOrganizacion,
+										String direccionOrganizacion,
+										String telefonoOrganizacion)
+	{
+		Organizacion organizacion;
+		
+		organizacion = new Organizacion(	SistemaBusinessFacade.prefijoCodigoPersona + Integer.toString(getConsecutivoPersona()),
+											nitOrganizacion,
+											nombreOrganizacion,
+											direccionOrganizacion,
+											telefonoOrganizacion);
+		
+		incrementarConsecutivoPersona();
+		
+		if(!getListaPersonas().existeNodoPorCodigoNombre(organizacion.getCodigoObjeto()))
+			getListaPersonas().agregarNodo(organizacion);
+		else
+			System.out.println("No pudo agregarse el persona de código " + organizacion.getCodigoObjeto() + " a la lista de personas");
+	}
+	
+	public Persona consultarOrganizacionPorCodigoNombre(String codigoNombrePersona)
+	{
+		if(getListaPersonas().existeNodoPorCodigoNombre(codigoNombrePersona))
+		{
+			return (Persona) getListaPersonas().consultarNodoCodigoNombre(codigoNombrePersona).getBusinessObject();
+		}
+		else
+		{
+			System.out.println("No existe ninguna persona con el código " + codigoNombrePersona);
+			return null;
+		}
+	}
+	
+	public void eliminarOrganizacion(String codigoNombrePersona)
+	{	
+		if(getListaPersonas().existeNodoPorCodigoNombre(codigoNombrePersona))
+		{
+			getListaNegocios().eliminarNodo(codigoNombrePersona);
+		}
+		else
+		{
+			System.out.println("No existe ninguna persona con el código " + codigoNombrePersona + " para eliminación");
+		}	
+	}
+	
+	public ArrayList<String> listarOrganizaciones()
+	{	
+		ArrayList<String> listaPersonas;
+		
+		listaPersonas = new ArrayList<String>();
+		
+		if(!getListaPersonas().listaVacia())
+		{
+			for(int contador = 0; contador < getListaPersonas().getNumeroNodos(); contador ++)
+			{
+				listaPersonas.add(getListaPersonas().obtenerNodoPorPosicion(contador).getBusinessObject().toString());
+			}
+			
+			return listaPersonas;
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	public void actualizarOrganizacion(	String codigoPersona,
+									int tipoDocumentoPersona,
 									String numeroDocumentoPersona,
 									String nombrePersona,
 									String telefonoPersona,
@@ -296,27 +382,6 @@ public class SistemaBusinessFacade {
 	}
 	
 	/*
-	//Inicio operaciones sobre la entidad Lista de Organizaciones
-	
-	public void agregarOrganizacion(Organizacion organizacion)
-	{
-	}
-	
-	public Negocio consultarOrganizacionPorNIT(String nitOrganizacion)
-	{
-		
-	}
-	
-	public void eliminarOrganizacion(String nitOrganizacion)
-	{
-		
-	}
-	
-	public ArrayList<String> listarOrganizaciones()
-	{
-		
-	}
-	
 	//Inicio operaciones sobre la entidad Lista de Actividades
 	
 	public void agregarActividad(Actividad actividad)

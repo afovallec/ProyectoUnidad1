@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import Business.Negocio;
+import Business.Persona;
 import Business.SistemaBusinessFacade;
 
 import java.util.ArrayList;
@@ -32,9 +33,13 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class GestionPrincipal {
-
+	final static String ITEMDEFECTOLISTAS = "Seleccione ...";
+	
+	
 	private SistemaBusinessFacade sistema;
 	//private ArrayList<String> listaNegocios;
 	
@@ -78,10 +83,9 @@ public class GestionPrincipal {
 	private JButton btnAgregarActualizar;
 	
 	private JTextField textCodigoPersona;
-	private JTextField textTituloPersona;
-	private JTextField textDescripcionPersona;
-	private JTextField textValorPersona;
-	private JTextField textFechaCierrePersona;
+	private JComboBox<String> comboBoxTipoDocumentoPersona;
+	private JTextField textNumeroDocumentoPersona;
+	private JTextField textTelefonoPersona;
 	private JLabel lblListaPersonas;
 	private JComboBox<String> comboBoxListaPersonas;
 	private JButton btnDetallePersona;
@@ -90,16 +94,13 @@ public class GestionPrincipal {
 	private JButton btnVolverPrincipalPersona;
 	private JPanel panelDetallePersona;
 	private JLabel lblCodigoPersona;
-	private JLabel lblTituloPersona;
-	private JLabel lblDescripcionPersona;
-	private JLabel lblNombreOrganizacionPersona;
-	private JComboBox<String> comboBoxNombreOrganizacionPersona;
-	private JLabel lblValorPersona;
-	private JLabel lblResponsablePersona;
-	private JComboBox<String> comboBoxResponsablePersona;
-	private JLabel lblFechaCierrePersona;
-	private JLabel lblEstadoPersona;
-	private JComboBox<String> comboBoxEstadoPersona;
+	private JLabel lblTipoDocumentoPersona;
+	private JLabel lblNumeroDocumentoPersona;
+	private JLabel lblNombresPersona;
+	private JTextField textNombresPersona;
+	private JLabel lblTelefonoPersona;
+	private JLabel lblEmailPersona;
+	private JTextField textEmailPersona;
 	private JButton btnVolverPersona;
 	private JButton btnAgregarActualizarPersona;
 
@@ -132,15 +133,24 @@ public class GestionPrincipal {
 	private void initialize() {	
 		sistema = new SistemaBusinessFacade();
 		
-		for(int contador = 0; contador < 1; contador ++)
+		for(int contador = 0; contador < 3; contador ++)
 		{
 			sistema.agregarNegocio(	"Título negocio " + contador,
 									"Descripción negocio " + contador,
-									"ORGANIZACIONPRUEBAAGREGADA",
+									"",
 									(double) 1000 + contador,
-									"PERSONAPRUEBAAGREGADA",
+									"",
 									"1-ene-2015 " + contador,
 									Negocio.PENDIENTE);	
+		}
+		
+		for(int contador = 0; contador < 3; contador ++)
+		{
+			sistema.agregarPersona(	Persona.CEDULA,
+									"999999" + contador,
+									"Persona" + contador + "Apellido" + contador,
+									"222333" + contador,
+									"persona" + contador + "@g.com");
 		}
 		//listaNegocios = sistema.listarNegocios();
 		//
@@ -177,6 +187,7 @@ public class GestionPrincipal {
 		
 		frameSistemaGestion.pack();
 		
+		//Panel de Negocios
 		panelNegocios = new JPanel();
 		panelAplicacion.add(panelNegocios);
 		panelNegocios.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Administraci\u00F3n de Negocios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -187,6 +198,7 @@ public class GestionPrincipal {
 		panelNegocios.add(lblListaNegocios);
 		
 		comboBoxListaNegocios = new JComboBox<String>();
+
 		panelNegocios.add(comboBoxListaNegocios);
 		
 		btnDetalleNegocio = new JButton("Detalle Negocio");
@@ -204,6 +216,7 @@ public class GestionPrincipal {
 		btnVolverPrincipal = new JButton("Volver al Menú principal");
 		panelNegocios.add(btnVolverPrincipal);
 		btnVolverPrincipal.setActionCommand("Anterior");
+		
 		
 		panelDetalleNegocio = new JPanel();
 		panelDetalleNegocio.setBorder(new TitledBorder(null, "Detalle Negocio", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -298,6 +311,32 @@ public class GestionPrincipal {
 		panelDetalleNegocio.add(btnVolver, "2, 18");
 		
 		btnAgregarActualizar = new JButton("Agregar / Actualizar");
+		panelDetalleNegocio.add(btnAgregarActualizar, "4, 18");
+		
+		comboBoxListaNegocios.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(comboBoxListaNegocios.getSelectedItem() != null)
+				{
+					if(comboBoxListaNegocios.getSelectedItem().toString().equalsIgnoreCase(GestionPrincipal.ITEMDEFECTOLISTAS))
+					{
+						btnDetalleNegocio.setEnabled(Boolean.FALSE);
+						btnEliminarNegocio.setEnabled(Boolean.FALSE);
+					}
+					else
+					{
+						btnDetalleNegocio.setEnabled(Boolean.TRUE);
+						btnEliminarNegocio.setEnabled(Boolean.TRUE);
+						actualizarListaPersonas(comboBoxResponsableNegocio);
+					}
+				}
+				else
+				{
+					btnDetalleNegocio.setEnabled(Boolean.FALSE);
+					btnEliminarNegocio.setEnabled(Boolean.FALSE);
+				}
+			}
+		});
+		
 		btnAgregarActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*
@@ -324,14 +363,20 @@ public class GestionPrincipal {
 				//TODO - ajustar para que los métodos de actualización y adición de negocio reciban los códigos de persona y organización elegidos
 				sistema.getListaNegocios().consultarNodo(textCodigoNegocio.getText()).setBusinessObject(negocioSeleccionado);
 				*/
+				String codigoPersonaElegida = comboBoxResponsableNegocio.getSelectedItem().toString();
+				String codigoPersonaActualizada = "";
+				
+				if(!codigoPersonaElegida.equalsIgnoreCase(GestionPrincipal.ITEMDEFECTOLISTAS))
+					codigoPersonaActualizada = sistema.getListaPersonas().consultarNodoCodigoNombre(codigoPersonaElegida).getBusinessObject().getCodigoObjeto();
+				
 				if(btnAgregarActualizar.getText().equalsIgnoreCase("Actualizar"))
-				{
+				{	
 					sistema.actualizarNegocio(	textCodigoNegocio.getText(),
 												textTituloNegocio.getText(),
 												textDescripcionNegocio.getText(),
 												"ORGANIZACIONPRUEBAACTUALIZADA",
 												Double.parseDouble(textValorNegocio.getText()),
-												"PERSONAPRUEBAAGREGADA",
+												codigoPersonaActualizada,
 												textFechaCierreNegocio.getText(),
 												comboBoxEstadoNegocio.getSelectedIndex());
 					
@@ -346,7 +391,7 @@ public class GestionPrincipal {
 											textDescripcionNegocio.getText(),
 											"ORGANIZACIONPRUEBAAGREGADA",
 											Double.parseDouble(textValorNegocio.getText()),
-											"PERSONAPRUEBAAGREGADA",
+											codigoPersonaActualizada,
 											textFechaCierreNegocio.getText(),
 											comboBoxEstadoNegocio.getSelectedIndex());
 					
@@ -357,9 +402,7 @@ public class GestionPrincipal {
 				}
 				
 				//TODO - Solucionar tema cuando se actualiza el campo de descripción del objeto y se requiere actualizar los ítems de a lista
-				//comboBoxListaNegocios.set
-				actualizarListaNegocios();
-				
+				//comboBoxListaNegocios.set				
 				
 				if(sistema.getListaNegocios().getNumeroNodos() > 0)
 				{
@@ -368,7 +411,6 @@ public class GestionPrincipal {
 				}
 			}
 		});
-		panelDetalleNegocio.add(btnAgregarActualizar, "4, 18");
 		
 		btnVolverPrincipal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -400,8 +442,18 @@ public class GestionPrincipal {
 				textTituloNegocio.setText(negocioElegido.getTituloNegocio());
 				textDescripcionNegocio.setText(negocioElegido.getDescripcionNegocio());
 				textValorNegocio.setText(Double.toString(negocioElegido.getValorNegocio()));
-				//comboBoxResponsableNegocio.setSelectedIndex()
 				textFechaCierreNegocio.setText(negocioElegido.getFechaCierreNegocio());
+				
+				if(negocioElegido.getCodigoPersona().equalsIgnoreCase(""))
+					comboBoxResponsableNegocio.setSelectedIndex(0);
+				else
+				{		
+					if(sistema.getListaPersonas().existeNodoPorCodigo(negocioElegido.getCodigoPersona()))
+						comboBoxResponsableNegocio.setSelectedItem(	(String) sistema.getListaPersonas().consultarNodo((String) negocioElegido.getCodigoPersona()).getBusinessObject().getCodigoObjeto() + "-" +
+																sistema.getListaPersonas().consultarNodo((String) negocioElegido.getCodigoPersona()).getBusinessObject().getDescripcionObjeto());
+					else
+						comboBoxResponsableNegocio.setSelectedIndex(0);
+				}
 				
 				switch(negocioElegido.getEstadoNegocio())
 				{
@@ -438,6 +490,8 @@ public class GestionPrincipal {
 				panelNegocios.setVisible(Boolean.TRUE);
 				panelDetalleNegocio.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
+				
+				actualizarListaNegocios();
 			}
 		});
 		
@@ -485,6 +539,7 @@ public class GestionPrincipal {
 				frameSistemaGestion.pack();
 			}
 		});
+		//Fin Panel de Negocios		
 		
 		//Panel de Personas
 		panelPersonas = new JPanel();
@@ -504,10 +559,53 @@ public class GestionPrincipal {
 		panelPersonas.add(btnDetallePersona);
 		
 		btnEliminarPersona = new JButton("Eliminar Persona");
+		btnEliminarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String itemPersonaElegida = comboBoxListaPersonas.getSelectedItem().toString();
+				int respuestaSeleccionada = 0;
+				
+				Persona personaElegida = sistema.consultarPersonaPorCodigoNombre(itemPersonaElegida);
+				
+				respuestaSeleccionada = JOptionPane.showConfirmDialog(null,
+						"¿Está seguro que desea eliminar la Persona " + personaElegida.getCodigoObjeto() + "-" + personaElegida.getDescripcionObjeto() + "?",
+						"Mensaje de confirmación",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE);
+				
+				if(respuestaSeleccionada == 0)
+				{
+					sistema.getListaPersonas().eliminarNodo(itemPersonaElegida);
+					
+					JOptionPane.showMessageDialog(null,
+							"Ítem eliminado",
+							"Mensaje de información",
+							JOptionPane.INFORMATION_MESSAGE);
+					
+					actualizarListaPersonas(comboBoxListaPersonas);
+				}
+				
+				if(sistema.getListaPersonas().getNumeroNodos() == 0)
+				{
+					btnEliminarPersona.setEnabled(Boolean.FALSE);
+					btnDetallePersona.setEnabled(Boolean.FALSE);
+				}
+			}
+		});
 
 		panelPersonas.add(btnEliminarPersona);
 		
 		btnAgregarPersona = new JButton("Agregar Persona");
+		btnAgregarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAgregarActualizarPersona.setText("Agregar");			
+				
+				textCodigoPersona.setVisible(Boolean.FALSE);
+				lblCodigoPersona.setVisible(Boolean.FALSE);
+				panelPersonas.setVisible(Boolean.FALSE);
+				panelDetallePersona.setVisible(Boolean.TRUE);
+				frameSistemaGestion.pack();
+			}
+		});
 
 		panelPersonas.add(btnAgregarPersona);
 		
@@ -554,61 +652,72 @@ public class GestionPrincipal {
 		panelDetallePersona.add(textCodigoPersona, "4, 2, fill, default");
 		textCodigoPersona.setColumns(10);
 		
-		lblTituloPersona = new JLabel("Título:");
-		panelDetallePersona.add(lblTituloPersona, "2, 4, left, default");
+		lblTipoDocumentoPersona = new JLabel("Tipo de documento:");
+		panelDetallePersona.add(lblTipoDocumentoPersona, "2, 4, left, default");
 		
-		textTituloPersona = new JTextField();
-		panelDetallePersona.add(textTituloPersona, "4, 4, fill, default");
-		textTituloPersona.setColumns(10);
-		
-		lblDescripcionPersona = new JLabel("Descripción:");
-		panelDetallePersona.add(lblDescripcionPersona, "2, 6, left, default");
-		
-		textDescripcionPersona = new JTextField();
-		panelDetallePersona.add(textDescripcionPersona, "4, 6, fill, default");
-		textDescripcionPersona.setColumns(10);
-		
-		lblNombreOrganizacionPersona = new JLabel("Nombre organización:");
-		panelDetallePersona.add(lblNombreOrganizacionPersona, "2, 8, right, default");
-		
-		comboBoxNombreOrganizacionPersona = new JComboBox<String>();
-		panelDetallePersona.add(comboBoxNombreOrganizacionPersona, "4, 8, fill, default");
-		
-		lblValorPersona = new JLabel("Valor:");
-		panelDetallePersona.add(lblValorPersona, "2, 10, left, default");
-		
-		textValorPersona = new JTextField();
-		panelDetallePersona.add(textValorPersona, "4, 10, fill, default");
-		textValorPersona.setColumns(10);
-		
-		lblResponsablePersona = new JLabel("Responsable:");
-		panelDetallePersona.add(lblResponsablePersona, "2, 12, left, default");
-		
-		comboBoxResponsablePersona = new JComboBox<String>();
-		panelDetallePersona.add(comboBoxResponsablePersona, "4, 12, fill, default");
-		
-		lblFechaCierrePersona = new JLabel("Fecha cierre:");
-		panelDetallePersona.add(lblFechaCierrePersona, "2, 14, left, default");
-		
-		textFechaCierrePersona = new JTextField();
-		panelDetallePersona.add(textFechaCierrePersona, "4, 14, fill, default");
-		textFechaCierrePersona.setColumns(10);
-		
-		lblEstadoPersona = new JLabel("Estado:");
-		panelDetallePersona.add(lblEstadoPersona, "2, 16, left, default");
-		
-		comboBoxEstadoPersona = new JComboBox<String>();
-		panelDetallePersona.add(comboBoxEstadoPersona, "4, 16, fill, default");
+		comboBoxTipoDocumentoPersona = new JComboBox<String>();
+		panelDetallePersona.add(comboBoxTipoDocumentoPersona, "4, 4, fill, default");
 
-		comboBoxEstadoPersona.addItem("PENDIENTE");
-		comboBoxEstadoPersona.addItem("ENEJECUCION");
-		comboBoxEstadoPersona.addItem("CERRADO");
+		comboBoxTipoDocumentoPersona.addItem("CC");
+		comboBoxTipoDocumentoPersona.addItem("TI");
+		comboBoxTipoDocumentoPersona.addItem("NIT");
+		
+		lblNumeroDocumentoPersona = new JLabel("Número de documento:");
+		panelDetallePersona.add(lblNumeroDocumentoPersona, "2, 6, left, default");
+		
+		textNumeroDocumentoPersona = new JTextField();
+		panelDetallePersona.add(textNumeroDocumentoPersona, "4, 6, fill, default");
+		textNumeroDocumentoPersona.setColumns(10);
+		
+		lblNombresPersona = new JLabel("Nombres y apellidos:");
+		panelDetallePersona.add(lblNombresPersona, "2, 8, left, default");
+		
+		textNombresPersona = new JTextField();
+		panelDetallePersona.add(textNombresPersona, "4, 8, fill, default");
+		
+		lblTelefonoPersona = new JLabel("Teléfono:");
+		panelDetallePersona.add(lblTelefonoPersona, "2, 10, left, default");
+		
+		textTelefonoPersona = new JTextField();
+		panelDetallePersona.add(textTelefonoPersona, "4, 10, fill, default");
+		textTelefonoPersona.setColumns(10);
+		
+		lblEmailPersona = new JLabel("e-Mail:");
+		panelDetallePersona.add(lblEmailPersona, "2, 12, left, default");
+		
+		textEmailPersona = new JTextField();
+		panelDetallePersona.add(textEmailPersona, "4, 12, fill, default");
 		
 		btnVolverPersona = new JButton("Volver");
 
 		panelDetallePersona.add(btnVolverPersona, "2, 18");
 		
 		btnAgregarActualizarPersona = new JButton("Agregar / Actualizar");
+
+		panelDetallePersona.add(btnAgregarActualizarPersona, "4, 18");
+		
+		comboBoxListaPersonas.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(comboBoxListaPersonas.getSelectedItem() != null)
+				{
+					if(comboBoxListaPersonas.getSelectedItem().toString().equalsIgnoreCase(GestionPrincipal.ITEMDEFECTOLISTAS))
+					{
+						btnDetallePersona.setEnabled(Boolean.FALSE);
+						btnEliminarPersona.setEnabled(Boolean.FALSE);
+					}
+					else
+					{
+						btnDetallePersona.setEnabled(Boolean.TRUE);
+						btnEliminarPersona.setEnabled(Boolean.TRUE);
+					}
+				}
+				else
+				{
+					btnDetallePersona.setEnabled(Boolean.FALSE);
+					btnEliminarPersona.setEnabled(Boolean.FALSE);
+				}
+			}
+		});
 		
 		btnAdministrarPersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -627,10 +736,105 @@ public class GestionPrincipal {
 				frameSistemaGestion.pack();
 			}
 		});
+		
+		btnVolverPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textCodigoPersona.setVisible(Boolean.TRUE);
+				lblCodigoPersona.setVisible(Boolean.TRUE);
+				
+				comboBoxTipoDocumentoPersona.setSelectedIndex(0);
+				textNumeroDocumentoPersona.setText("");
+				textNombresPersona.setText("");
+				textTelefonoPersona.setText("");
+				textEmailPersona.setText("");
+				
+				
+				panelPersonas.setVisible(Boolean.TRUE);
+				panelDetallePersona.setVisible(Boolean.FALSE);
+				frameSistemaGestion.pack();
+				
+				actualizarListaPersonas(comboBoxListaPersonas);
+			}
+		});
+		
+		btnDetallePersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnAgregarActualizarPersona.setText("Actualizar");
+				
+				String itemPersonaElegida = comboBoxListaPersonas.getSelectedItem().toString();
+				Persona personaElegida = sistema.consultarPersonaPorCodigoNombre(itemPersonaElegida);
+				
+				textCodigoPersona.setText(personaElegida.getCodigoPersona());
+				//comboBoxTipoDocumentoPersona.setText(negocioElegido.getTituloNegocio());
+				textNumeroDocumentoPersona.setText(personaElegida.getNumeroDocumentoPersona());
+				textNombresPersona.setText(personaElegida.getNombrePersona());
+				//comboBoxResponsableNegocio.setSelectedIndex()
+				textTelefonoPersona.setText(personaElegida.getTelefonoPersona());
+				textEmailPersona.setText(personaElegida.getEmailPersona());
+				
+				switch(personaElegida.getTipoDocumentoPersona())
+				{
+					case Persona.CEDULA:
+						comboBoxTipoDocumentoPersona.setSelectedIndex(0);
+						break;
+					case Persona.TARJETAIDENTIDAD:
+						comboBoxTipoDocumentoPersona.setSelectedIndex(1);
+						break;
+					case Persona.NIT:
+						comboBoxTipoDocumentoPersona.setSelectedIndex(2);
+						break;
+				}
+				
+				panelPersonas.setVisible(Boolean.FALSE);
+				panelDetallePersona.setVisible(Boolean.TRUE);
+				frameSistemaGestion.pack();
+				
+				actualizarListaPersonas(comboBoxResponsableNegocio);
+				actualizarListaPersonas(comboBoxListaPersonas);
+			}
+		});
+		
+		btnAgregarActualizarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(btnAgregarActualizarPersona.getText().equalsIgnoreCase("Actualizar"))
+				{
+					sistema.actualizarPersona(	textCodigoPersona.getText(),
+												comboBoxTipoDocumentoPersona.getSelectedIndex(),
+												textNumeroDocumentoPersona.getText(),
+												textNombresPersona.getText(),
+												textTelefonoPersona.getText(),
+												textEmailPersona.getText());
+					
+					JOptionPane.showMessageDialog(null,
+							"Ítem actualizado",
+							"Mensaje de información",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+				else
+				{
+					sistema.agregarPersona(	comboBoxTipoDocumentoPersona.getSelectedIndex(),
+											textNumeroDocumentoPersona.getText(),
+											textNombresPersona.getText(),
+											textTelefonoPersona.getText(),
+											textEmailPersona.getText());
+					
+					JOptionPane.showMessageDialog(null,
+							"Ítem agregado",
+							"Mensaje de información",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+				
+				if(sistema.getListaPersonas().getNumeroNodos() > 0)
+				{
+					btnEliminarPersona.setEnabled(Boolean.TRUE);
+					btnDetallePersona.setEnabled(Boolean.TRUE);
+				}
+			}
+		});
 		//Fin Panel de Personas
 		
-		
-		
+		actualizarListaPersonas(comboBoxResponsableNegocio);
+		actualizarListaPersonas(comboBoxListaPersonas);
 		
 		actualizarListaNegocios();
 	}
@@ -643,9 +847,26 @@ public class GestionPrincipal {
 		
 		if(listaNegocios != null)
 		{
+			comboBoxListaNegocios.addItem(GestionPrincipal.ITEMDEFECTOLISTAS);
 			for(int contador = 0; contador < listaNegocios.size(); contador ++)
 			{
 				comboBoxListaNegocios.addItem(listaNegocios.get(contador));
+			}
+		}
+	}
+	
+	public void actualizarListaPersonas(JComboBox<String> comboBoxListaPersonasGeneral)
+	{
+		comboBoxListaPersonasGeneral.removeAllItems();
+
+		ArrayList<String> listaPersonas = sistema.listarPersonas();
+		
+		if(listaPersonas != null)
+		{
+			comboBoxListaPersonasGeneral.addItem(GestionPrincipal.ITEMDEFECTOLISTAS);
+			for(int contador = 0; contador < listaPersonas.size(); contador ++)
+			{
+				comboBoxListaPersonasGeneral.addItem(listaPersonas.get(contador));
 			}
 		}
 	}
