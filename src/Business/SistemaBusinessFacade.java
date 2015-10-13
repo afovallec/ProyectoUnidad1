@@ -9,7 +9,7 @@ public class SistemaBusinessFacade {
 	private Lista listaNegociosPorOrganizacion;
 	
 	public static final String prefijoCodigoNegocio = "codn";
-	public static final String prefijoCodigoOrganziacion = "codo";
+	public static final String prefijoCodigoOrganizacion = "codo";
 	public static final String prefijoCodigoPersona = "codp";
 	public static final String prefijoCodigoActividades = "coda";
 	
@@ -173,9 +173,9 @@ public class SistemaBusinessFacade {
 	public void actualizarNegocio(	String codigoNegocio,
 									String tituloNegocio,
 									String descripcionNegocio,
-									String codigoNombreOrganizacion,
+									String codigoOrganizacion,
 									double valorNegocio,
-									String codigoNombrePersona,
+									String codigoPersona,
 									String fechaCierreNegocio,
 									int estadoNegocio)
 	{
@@ -186,9 +186,9 @@ public class SistemaBusinessFacade {
 		{
 			negocioSeleccionado.setTituloNegocio(tituloNegocio);
 			negocioSeleccionado.setDescripcionNegocio(descripcionNegocio);
-			//TODO - negocioSeleccionado.setCodigoOrganizacion(codigoNombreOrganizacion);
+			negocioSeleccionado.setCodigoOrganizacion(codigoOrganizacion);
 			negocioSeleccionado.setValorNegocio(valorNegocio);
-			negocioSeleccionado.setCodigoPersona(codigoNombrePersona);
+			negocioSeleccionado.setCodigoPersona(codigoPersona);
 			negocioSeleccionado.setFechaCierreNegocio(fechaCierreNegocio);
 			negocioSeleccionado.setEstadoNegocio(estadoNegocio);
 			
@@ -239,7 +239,7 @@ public class SistemaBusinessFacade {
 	{	
 		if(getListaPersonas().existeNodoPorCodigoNombre(codigoNombrePersona))
 		{
-			getListaNegocios().eliminarNodo(codigoNombrePersona);
+			getListaPersonas().eliminarNodo(codigoNombrePersona);
 		}
 		else
 		{
@@ -299,59 +299,59 @@ public class SistemaBusinessFacade {
 	{
 		Organizacion organizacion;
 		
-		organizacion = new Organizacion(	SistemaBusinessFacade.prefijoCodigoPersona + Integer.toString(getConsecutivoPersona()),
+		organizacion = new Organizacion(	SistemaBusinessFacade.prefijoCodigoOrganizacion + Integer.toString(getConsecutivoOrganizacion()),
 											nitOrganizacion,
 											nombreOrganizacion,
 											direccionOrganizacion,
 											telefonoOrganizacion);
 		
-		incrementarConsecutivoPersona();
+		incrementarConsecutivoOrganizacion();
 		
-		if(!getListaPersonas().existeNodoPorCodigoNombre(organizacion.getCodigoObjeto()))
-			getListaPersonas().agregarNodo(organizacion);
+		if(!getListaOrganizaciones().existeNodoPorCodigoNombre(organizacion.getCodigoObjeto() + "-" + organizacion.getDescripcionObjeto()))
+			getListaOrganizaciones().agregarNodo(organizacion);
 		else
-			System.out.println("No pudo agregarse el persona de código " + organizacion.getCodigoObjeto() + " a la lista de personas");
+			System.out.println("No pudo agregarse la organización de código " + organizacion.getCodigoObjeto() + " a la lista de organización");
 	}
 	
-	public Persona consultarOrganizacionPorCodigoNombre(String codigoNombrePersona)
+	public Organizacion consultarOrganizacionPorCodigoNombre(String codigoNombreOrganizacion)
 	{
-		if(getListaPersonas().existeNodoPorCodigoNombre(codigoNombrePersona))
+		if(getListaOrganizaciones().existeNodoPorCodigoNombre(codigoNombreOrganizacion))
 		{
-			return (Persona) getListaPersonas().consultarNodoCodigoNombre(codigoNombrePersona).getBusinessObject();
+			return (Organizacion) getListaOrganizaciones().consultarNodoCodigoNombre(codigoNombreOrganizacion).getBusinessObject();
 		}
 		else
 		{
-			System.out.println("No existe ninguna persona con el código " + codigoNombrePersona);
+			System.out.println("No existe ninguna organización con el código " + codigoNombreOrganizacion);
 			return null;
 		}
 	}
 	
-	public void eliminarOrganizacion(String codigoNombrePersona)
+	public void eliminarOrganizacion(String codigoNombreOrganizacion)
 	{	
-		if(getListaPersonas().existeNodoPorCodigoNombre(codigoNombrePersona))
+		if(getListaOrganizaciones().existeNodoPorCodigoNombre(codigoNombreOrganizacion))
 		{
-			getListaNegocios().eliminarNodo(codigoNombrePersona);
+			getListaOrganizaciones().eliminarNodo(codigoNombreOrganizacion);
 		}
 		else
 		{
-			System.out.println("No existe ninguna persona con el código " + codigoNombrePersona + " para eliminación");
+			System.out.println("No existe ninguna organización con el código " + codigoNombreOrganizacion + " para eliminación");
 		}	
 	}
 	
 	public ArrayList<String> listarOrganizaciones()
 	{	
-		ArrayList<String> listaPersonas;
+		ArrayList<String> listaOrganizaciones;
 		
-		listaPersonas = new ArrayList<String>();
+		listaOrganizaciones = new ArrayList<String>();
 		
-		if(!getListaPersonas().listaVacia())
+		if(!getListaOrganizaciones().listaVacia())
 		{
-			for(int contador = 0; contador < getListaPersonas().getNumeroNodos(); contador ++)
+			for(int contador = 0; contador < getListaOrganizaciones().getNumeroNodos(); contador ++)
 			{
-				listaPersonas.add(getListaPersonas().obtenerNodoPorPosicion(contador).getBusinessObject().toString());
+				listaOrganizaciones.add(getListaOrganizaciones().obtenerNodoPorPosicion(contador).getBusinessObject().toString());
 			}
 			
-			return listaPersonas;
+			return listaOrganizaciones;
 		}
 		else
 		{
@@ -359,51 +359,128 @@ public class SistemaBusinessFacade {
 		}
 	}
 	
-	public void actualizarOrganizacion(	String codigoPersona,
-									int tipoDocumentoPersona,
-									String numeroDocumentoPersona,
-									String nombrePersona,
-									String telefonoPersona,
-									String emailPersona)
+	public void actualizarOrganizacion(	String codigoOrganizacion,
+									String nitOrganizacion,
+									String nombreOrganizacion,
+									String direccionOrganizacion,
+									String telefonoOrganizacion)
 	{
-		Persona personaSeleccionada;
-		personaSeleccionada = (Persona) getListaPersonas().consultarNodo(codigoPersona).getBusinessObject();
+		Organizacion organizacionSeleccionada;
+		organizacionSeleccionada = (Organizacion) getListaOrganizaciones().consultarNodo(codigoOrganizacion).getBusinessObject();
 
-		if(personaSeleccionada != null)
+		if(organizacionSeleccionada != null)
 		{
-			personaSeleccionada.setTipoDocumentoPersona(tipoDocumentoPersona);
-			personaSeleccionada.setNumeroDocumentoPersona(numeroDocumentoPersona);
-			personaSeleccionada.setNombrePersona(nombrePersona);
-			personaSeleccionada.setTelefonoPersona(telefonoPersona);
-			personaSeleccionada.setEmailPersona(emailPersona);
+			organizacionSeleccionada.setNitOrganizacion(nitOrganizacion);
+			organizacionSeleccionada.setNombreOrganizacion(nombreOrganizacion);
+			organizacionSeleccionada.setDireccionOrganizacion(direccionOrganizacion);
+			organizacionSeleccionada.setTelefonoOrganizacion(telefonoOrganizacion);
 			
-			getListaPersonas().consultarNodo(codigoPersona).setBusinessObject(personaSeleccionada);
+			getListaOrganizaciones().consultarNodo(codigoOrganizacion).setBusinessObject(organizacionSeleccionada);
+		}
+	}
+	
+	//Inicio operaciones sobre la entidad Lista de Actividades
+	
+	public void agregarActividad(		String descripcionActividad,
+										int tipoActividad,
+										String fechaInicioActividad,
+										String horaInicioActividad,
+										String duracionActividad,
+										String codigoPersona,
+										String codigoOrganizacion,
+										String codigoNegocio)
+	{
+		Actividad actividad;
+		
+		actividad = new Actividad(	SistemaBusinessFacade.prefijoCodigoActividades + Integer.toString(getConsecutivoActividad()),
+									descripcionActividad,
+									fechaInicioActividad,
+									horaInicioActividad,
+									duracionActividad);
+		
+		incrementarConsecutivoActividad();
+		
+		if(!getListaActividades().existeNodoPorCodigoNombre(actividad.getCodigoObjeto() + "-" + actividad.getDescripcionObjeto()))
+			getListaActividades().agregarNodo(actividad);
+		else
+			System.out.println("No pudo agregarse la actividad de código " + actividad.getCodigoObjeto() + " a la lista de actividades");
+	}
+	
+	public Actividad consultarActividadPorCodigoNombre(String codigoNombreActividad)
+	{
+		if(getListaActividades().existeNodoPorCodigoNombre(codigoNombreActividad))
+		{
+			return (Actividad) getListaActividades().consultarNodoCodigoNombre(codigoNombreActividad).getBusinessObject();
+		}
+		else
+		{
+			System.out.println("No existe ninguna actividad con el código " + codigoNombreActividad);
+			return null;
+		}
+	}
+	
+	public void eliminarActividad(String codigoNombreActividad)
+	{	
+		if(getListaActividades().existeNodoPorCodigoNombre(codigoNombreActividad))
+		{
+			getListaActividades().eliminarNodo(codigoNombreActividad);
+		}
+		else
+		{
+			System.out.println("No existe ninguna actividad con el código " + codigoNombreActividad + " para eliminación");
+		}	
+	}
+	
+	public ArrayList<String> listarActividades()
+	{	
+		ArrayList<String> listaActividades;
+		
+		listaActividades = new ArrayList<String>();
+		
+		if(!getListaActividades().listaVacia())
+		{
+			for(int contador = 0; contador < getListaActividades().getNumeroNodos(); contador ++)
+			{
+				listaActividades.add(getListaActividades().obtenerNodoPorPosicion(contador).getBusinessObject().toString());
+			}
+			
+			return listaActividades;
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
+	public void actualizarActividad(	String codigoActividad,
+										String descripcionActividad,
+										int tipoActividad,
+										String fechaInicioActividad,
+										String horaInicioActividad,
+										String duracionActividad,
+										String codigoPersona,
+										String codigoOrganizacion,
+										String codigoNegocio)
+	{
+		Actividad actividadSeleccionada;
+		actividadSeleccionada = (Actividad) getListaActividades().consultarNodo(codigoActividad).getBusinessObject();
+
+		if(actividadSeleccionada != null)
+		{
+			actividadSeleccionada.setDescripcionActividad(descripcionActividad);
+			actividadSeleccionada.setTipoActividad(tipoActividad);
+			actividadSeleccionada.setFechaInicioActividad(fechaInicioActividad);
+			actividadSeleccionada.setHoraInicioActividad(horaInicioActividad);
+			actividadSeleccionada.setDuracionActividad(duracionActividad);
+			actividadSeleccionada.setCodigoPersona(codigoPersona);
+			actividadSeleccionada.setCodigoOrganizacion(codigoOrganizacion);
+			actividadSeleccionada.setCodigoNegocio(codigoNegocio);
+			
+			getListaActividades().consultarNodo(codigoActividad).setBusinessObject(actividadSeleccionada);
 		}
 	}
 	
 	/*
-	//Inicio operaciones sobre la entidad Lista de Actividades
-	
-	public void agregarActividad(Actividad actividad)
-	{
-	}
-	
-	public Negocio consultarActividadPorCodigo(String codigoActividad)
-	{
-		
-	}
-	
-	public void eliminarActividad(String codigoActividad)
-	{
-		
-	}
-	
-	public ArrayList<String> listarActividades()
-	{
-		ArrayList<String> listaActividades = new ArrayList<String>();
-		
-	}
-	
 	//Inicio operaciones sobre la entidad Lista de Negocios por Organizacion
 	
 	public void asignarNegocioAOrganizacion(Negocio negocio, Organizacion organizacion)

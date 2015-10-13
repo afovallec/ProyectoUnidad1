@@ -44,7 +44,10 @@ public class Organizacion extends BusinessObject{
 
 	public void setNombreOrganizacion(String nombreOrganizacion) {
 		if(!nombreOrganizacion.equalsIgnoreCase(""))
+		{
 			this.nombreOrganizacion = nombreOrganizacion;
+			setDescripcionObjeto(nombreOrganizacion);
+		}
 	}
 
 	public String getDireccionOrganizacion() {

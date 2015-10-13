@@ -72,7 +72,6 @@ public class Negocio extends BusinessObject
 	public void setCodigoOrganizacion(String codigoOrganizacion) {
 		if(!codigoOrganizacion.equalsIgnoreCase(""))
 			this.codigoOrganizacion = codigoOrganizacion;
-			super.setCodigoObjeto(codigoOrganizacion);
 	}
 
 	public double getValorNegocio() {
@@ -107,8 +106,7 @@ public class Negocio extends BusinessObject
 	}
 
 	public void setEstadoNegocio(int estadoNegocio) {
-		if(!(estadoNegocio == 0))
-			this.estadoNegocio = estadoNegocio;
+		this.estadoNegocio = estadoNegocio;
 	}
 	
 	public String toString(int modo)

@@ -3,28 +3,33 @@ package Business;
 public class Actividad extends BusinessObject{
 	private String codigoActividad;
 	private String descripcionActividad;
-	private String tipoActividad;
+	private int tipoActividad;
 	private String fechaInicioActividad;
 	private String horaInicioActividad;
 	private String duracionActividad;
-	private String nombrePersona;
-	private String nombreOrganizacion;
-	private String nombreNegocio;
+	private String codigoPersona;
+	private String codigoOrganizacion;
+	private String codigoNegocio;
 	
-	public Actividad(String codigoActividad, String descripcionActividad,
-			String fechaInicioActividad,
-			String horaInicioActividad, String duracionActividad)
+	public final static int ADMINISTRATIVA = 0;
+	public final static int NEGOCIO = 1;
+	
+	public Actividad(	String codigoActividad,
+						String descripcionActividad,
+						String fechaInicioActividad,
+						String horaInicioActividad,
+						String duracionActividad)
 	{
-		super(codigoActividad);
+		super(codigoActividad, descripcionActividad);
 		this.codigoActividad = codigoActividad;
 		this.descripcionActividad = descripcionActividad;
-		this.tipoActividad = "ADMINISTRATIVA";
+		this.tipoActividad = Actividad.ADMINISTRATIVA;
 		this.fechaInicioActividad = fechaInicioActividad;
 		this.horaInicioActividad = horaInicioActividad;
 		this.duracionActividad = duracionActividad;
-		this.nombrePersona = "SINASIGNAR";
-		this.nombreOrganizacion = "SINASIGNAR";
-		this.nombreNegocio = "SINASIGNAR";
+		this.codigoPersona = "";
+		this.codigoOrganizacion = "";
+		this.codigoNegocio = "";
 	}
 
 	public String getCodigoActividad() {
@@ -41,14 +46,18 @@ public class Actividad extends BusinessObject{
 	}
 
 	public void setDescripcionActividad(String descripcionActividad) {
-		this.descripcionActividad = descripcionActividad;
+		if(!descripcionActividad.equalsIgnoreCase(""))
+		{
+			this.descripcionActividad = descripcionActividad;
+			setDescripcionObjeto(descripcionActividad);
+		}
 	}
 
-	public String getTipoActividad() {
+	public int getTipoActividad() {
 		return tipoActividad;
 	}
 
-	public void setTipoActividad(String tipoActividad) {
+	public void setTipoActividad(int tipoActividad) {
 		this.tipoActividad = tipoActividad;
 	}
 
@@ -57,7 +66,8 @@ public class Actividad extends BusinessObject{
 	}
 
 	public void setFechaInicioActividad(String fechaInicioActividad) {
-		this.fechaInicioActividad = fechaInicioActividad;
+		if(!fechaInicioActividad.equalsIgnoreCase(""))
+			this.fechaInicioActividad = fechaInicioActividad;
 	}
 
 	public String getHoraInicioActividad() {
@@ -65,7 +75,8 @@ public class Actividad extends BusinessObject{
 	}
 
 	public void setHoraInicioActividad(String horaInicioActividad) {
-		this.horaInicioActividad = horaInicioActividad;
+		if(!horaInicioActividad.equalsIgnoreCase(""))
+			this.horaInicioActividad = horaInicioActividad;
 	}
 
 	public String getDuracionActividad() {
@@ -73,35 +84,36 @@ public class Actividad extends BusinessObject{
 	}
 
 	public void setDuracionActividad(String duracionActividad) {
-		this.duracionActividad = duracionActividad;
+		if(!duracionActividad.equalsIgnoreCase(""))
+			this.duracionActividad = duracionActividad;
 	}
 
-	public String getNombrePersona() {
-		return nombrePersona;
+	public String getCodigoPersona() {
+		return codigoPersona;
 	}
 
-	public void setNombrePersona(String nombrePersona) {
-		this.nombrePersona = nombrePersona;
+	public void setCodigoPersona(String codigoPersona) {
+		this.codigoPersona = codigoPersona;
 	}
 
-	public String getNombreOrganizacion() {
-		return nombreOrganizacion;
+	public String getCodigoOrganizacion() {
+		return codigoOrganizacion;
 	}
 
-	public void setNombreOrganizacion(String nombreOrganizacion) {
-		this.nombreOrganizacion = nombreOrganizacion;
+	public void setCodigoOrganizacion(String codigoOrganizacion) {
+		this.codigoOrganizacion = codigoOrganizacion;
 	}
 
-	public String getNombreNegocio() {
-		return nombreNegocio;
+	public String getCodigoNegocio() {
+		return codigoNegocio;
 	}
 
-	public void setNombreNegocio(String nombreNegocio) {
-		this.nombreNegocio = nombreNegocio;
+	public void setCodigoNegocio(String codigoNegocio) {
+		this.codigoNegocio = codigoNegocio;
 	}
 	
 	public String toString()
 	{
-		return 	"INFORMACIÓN ACTIVIDAD: " + getCodigoObjeto();
+		return 	getCodigoObjeto() + "-" + getDescripcionObjeto();
 	}
 }
