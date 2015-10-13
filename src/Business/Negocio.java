@@ -29,7 +29,6 @@ public class Negocio extends BusinessObject
 		this.descripcionNegocio = descripcionNegocio;
 		this.codigoOrganizacion = codigoOrganizacion;
 		this.valorNegocio = valorNegocio;
-		//TODO - Cambiar por código de la persona
 		this.codigoPersona = codigoPersona;
 		this.fechaCierreNegocio = fechaCierreNegocio;
 		this.estadoNegocio = Negocio.PENDIENTE;

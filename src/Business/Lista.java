@@ -65,7 +65,6 @@ public class Lista {
 			
 			do
 			{
-				//TODO - Regresar a la definiciòn de solamente ccomparación por código objeto
 				if(codigoNombreObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto()))
 				{
 					
@@ -108,7 +107,6 @@ public class Lista {
 			
 			do
 			{
-				//TODO - Regresar a la definición de comparación únicamente por código objeto
 				if(codigoObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto()))
 				{
 					return auxiliar;
@@ -134,7 +132,6 @@ public class Lista {
 			
 			do
 			{
-				//TODO - Regresar a la definición de comparación únicamente por código objeto
 				if(codigoNombreObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto()))
 				{
 					return auxiliar;
@@ -191,7 +188,6 @@ public class Lista {
 			do
 			{
 				
-				//TODO - Regresar a la definición de comparación únicamente por código objeto
 				if(codigoNombreObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto() + "-" + auxiliar.getBusinessObject().getDescripcionObjeto()))
 				{
 					return Boolean.TRUE;
@@ -218,7 +214,6 @@ public class Lista {
 			do
 			{
 				
-				//TODO - Regresar a la definición de comparación únicamente por código objeto
 				if(codigoObjeto.equalsIgnoreCase(auxiliar.getBusinessObject().getCodigoObjeto()))
 				{
 					return Boolean.TRUE;

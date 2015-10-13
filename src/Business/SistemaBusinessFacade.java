@@ -192,7 +192,6 @@ public class SistemaBusinessFacade {
 			negocioSeleccionado.setFechaCierreNegocio(fechaCierreNegocio);
 			negocioSeleccionado.setEstadoNegocio(estadoNegocio);
 			
-			//TODO - ajustar consultar nodo para que no reciba sino solamente el codigo del objeto y no con su descripcion
 			getListaNegocios().consultarNodo(codigoNegocio).setBusinessObject(negocioSeleccionado);
 		}
 	}
@@ -480,21 +479,4 @@ public class SistemaBusinessFacade {
 		}
 	}
 	
-	/*
-	//Inicio operaciones sobre la entidad Lista de Negocios por Organizacion
-	
-	public void asignarNegocioAOrganizacion(Negocio negocio, Organizacion organizacion)
-	{
-	}
-	
-	public ArrayList<String> consultarNegociosPorOrganizacion(String nitOrganizacion)
-	{
-		
-	}
-	
-	public void eliminarAsignacionNegocioAOrganizacion(Negocio negocio)
-	{
-		
-	}
-	*/
 }

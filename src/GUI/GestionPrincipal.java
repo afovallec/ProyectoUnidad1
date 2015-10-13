@@ -472,7 +472,6 @@ public class GestionPrincipal {
 		
 		btnAdministrarPersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				panelPersonas.setVisible(Boolean.TRUE);
 				panelPrincipal.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
@@ -481,7 +480,6 @@ public class GestionPrincipal {
 		
 		btnVolverPrincipalActividad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				panelPrincipal.setVisible(Boolean.TRUE);
 				panelActividades.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
@@ -805,7 +803,6 @@ public class GestionPrincipal {
 		
 		btnAdministrarPersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				panelPersonas.setVisible(Boolean.TRUE);
 				panelPrincipal.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
@@ -814,7 +811,6 @@ public class GestionPrincipal {
 		
 		btnVolverPrincipalOrganizacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				panelPrincipal.setVisible(Boolean.TRUE);
 				panelOrganizaciones.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
@@ -1056,30 +1052,6 @@ public class GestionPrincipal {
 		
 		btnAgregarActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*
-				Negocio negocioSeleccionado;
-				
-				if(btnAgregarActualizar.getText().equalsIgnoreCase("Actualizar"))
-				{
-					negocioSeleccionado = (Negocio) sistema.getListaNegocios().consultarNodo(textCodigoNegocio.getText()).getBusinessObject();
-				}
-				else
-				{
-					negocioSeleccionado = new Negocio("", "", "", 0, "");
-				}
-				
-				negocioSeleccionado.setTituloNegocio(textTituloNegocio.getText());
-				negocioSeleccionado.setDescripcionNegocio(textDescripcionNegocio.getText());
-				//TODO - negocioSeleccionado.setCodigoOrganizacion(codigoNombreOrganizacion);
-				negocioSeleccionado.setValorNegocio(Double.parseDouble(textValorNegocio.getText()));
-				negocioSeleccionado.setFechaCierreNegocio(textFechaCierreNegocio.getText());
-				negocioSeleccionado.setEstadoNegocio(comboBoxEstadoNegocio.getSelectedIndex());
-				
-				
-				//TODO - ajustar consultar nodo para que no reciba sino solamente el codigo del objeto y no con su descripcion
-				//TODO - ajustar para que los métodos de actualización y adición de negocio reciban los códigos de persona y organización elegidos
-				sistema.getListaNegocios().consultarNodo(textCodigoNegocio.getText()).setBusinessObject(negocioSeleccionado);
-				*/
 				String codigoPersonaElegida = comboBoxResponsableNegocio.getSelectedItem().toString();
 				String codigoPersonaActualizada = "";
 				
@@ -1124,9 +1096,6 @@ public class GestionPrincipal {
 							JOptionPane.INFORMATION_MESSAGE);
 				}
 				
-				//TODO - Solucionar tema cuando se actualiza el campo de descripción del objeto y se requiere actualizar los ítems de a lista
-				//comboBoxListaNegocios.set				
-				
 				if(sistema.getListaNegocios().getNumeroNodos() > 0)
 				{
 					btnEliminarNegocio.setEnabled(Boolean.TRUE);
@@ -1139,7 +1108,6 @@ public class GestionPrincipal {
 		
 		btnVolverPrincipal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				panelPrincipal.setVisible(Boolean.TRUE);
 				panelNegocios.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
@@ -1148,7 +1116,6 @@ public class GestionPrincipal {
 		
 		btnAdministrarNegocios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				panelNegocios.setVisible(Boolean.TRUE);
 				panelPrincipal.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
@@ -1160,7 +1127,6 @@ public class GestionPrincipal {
 				btnAgregarActualizar.setText("Actualizar");
 				
 				String itemNegocioElegido = comboBoxListaNegocios.getSelectedItem().toString();
-				//TODO - Ajustar para consultar por código más no por código Nombre
 				Negocio negocioElegido = sistema.consultarNegocioPorCodigoNombre(itemNegocioElegido);
 				
 				textCodigoNegocio.setText(negocioElegido.getCodigoNegocio());
@@ -1236,7 +1202,6 @@ public class GestionPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				String itemNegocioElegido = comboBoxListaNegocios.getSelectedItem().toString();
 				int respuestaSeleccionada = 0;
-				//TODO - Ajustar para consultar por código más no por código Nombre
 				Negocio negocioElegido = sistema.consultarNegocioPorCodigoNombre(itemNegocioElegido);
 				
 				respuestaSeleccionada = JOptionPane.showConfirmDialog(null,
@@ -1458,7 +1423,6 @@ public class GestionPrincipal {
 		
 		btnAdministrarPersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				panelPersonas.setVisible(Boolean.TRUE);
 				panelPrincipal.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
@@ -1467,7 +1431,6 @@ public class GestionPrincipal {
 		
 		btnVolverPrincipalPersona.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				panelPrincipal.setVisible(Boolean.TRUE);
 				panelPersonas.setVisible(Boolean.FALSE);
 				frameSistemaGestion.pack();
